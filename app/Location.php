@@ -11,4 +11,14 @@ class Location extends Model
         'longlatitude',
         'description'
     ];
+
+    public function apartment()
+    {
+        return $this->hasMany('App\Apartment', 'location', 'id');
+    }
+
+    public function user()
+    {
+        return $this->hasMAny('App\User','address','id');
+    }
 }

@@ -34,4 +34,43 @@ class User extends Authenticatable
     protected $hidden = [
         'password'
     ];
+    public function comment()
+    {
+        return $this->hasMany('App\Comment', 'idUser', 'id');
+    }
+
+    public function apartment()
+    {
+        return $this->hasMany('App\Apartment', 'idUser', 'id');
+    }
+
+    public function rating()
+    {
+        return $this->hasMany('App\Rating', 'idUser', 'id');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo('App\Location', 'address', 'id');
+    }
+
+    public function apartmentRating()
+    {
+        return $this->belongsToMany('App\Rating');
+    }
+
+    public function commentApartment()
+    {
+        return $this->belongsToMany('App\Comment');
+    }
+
+    public function commentPhoto()
+    {
+        return $this->hasManyThrough('App\CommentPhoto', 'App\Comment');
+    }
+
+    public function apartmentPhoto()
+    {
+        return $this->hasManyThrough('App\ApartmentPhoto', 'App\Apartment');
+    }
 }

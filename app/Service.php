@@ -10,4 +10,9 @@ class Service extends Model
         'name',
         'price',
     ];
+
+    public function serviceApartment()
+    {
+        return $this->belongsToMany('App\Apartment', 'apartment_services' ,'idApartment','idUser');
+    }
 }
