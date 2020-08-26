@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -18,13 +19,12 @@ class User extends Authenticatable
         'email', 
         'password',
         'passwordConfirm',
-        'passwordChangeAt',
         'name',
         'address',
         'phoneNumber',
-        'photo',
-        'role' 
+        'photo'
     ];
+    public $timestamps = false;
 
     /**
      * The attributes that should be hidden for arrays.
@@ -32,7 +32,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password'
+        'password',
+        'passwordConfirm',
+        'passwordChangedAt'
     ];
     public function comment()
     {
@@ -72,5 +74,29 @@ class User extends Authenticatable
     public function apartmentPhoto()
     {
         return $this->hasManyThrough('App\ApartmentPhoto', 'App\Apartment');
+    }
+
+   
+    // Events
+    public static function boot() {
+        parent::boot();
+
+        self::saving(function($user) {
+            self::handlePassword($user);
+        });
+    }
+
+    // Query Scopes
+    public static function scopeFields($query) {
+        return $query->addSelect('id', 'name', 'photo', 'phoneNumber', 'address', 'email');
+    }
+
+    private static function handlePassword($user) {
+        if ($user->wasChanged('password') || !$user->exists) {
+            $user->password = Hash::make($user->password, [
+                'rounds' => 12
+            ]);
+            $user->passwordConfirm = null;
+        }
     }
 }

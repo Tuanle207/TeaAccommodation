@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Apartment;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +13,23 @@ use App\Apartment;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Users router
+Route::prefix('/users') -> group(function() {
+
+    // Signup route
+    Route::post('/signup', 'AuthController@signup'); // done
+    // Login route
+    Route::post('/login', 'AuthController@login'); // done
+    // Logout route
+    Route::get('/logout', 'AuthController@logout'); // done
+    // Check logged in route
+    Route::get('/isLoggedIn', 'AuthController@isLoggedIn'); // done
+    // Forgot password route
+    Route::post('/forgotPassword', 'AuthController@forgotPassword');
+    // Reset password route
+    Route::patch('/resetPassword/{token}', 'AuthController@resetPassword');
 });
+
+
 
 Route::resource('Apartment', 'ApartmentController');

@@ -1,8 +1,10 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateUsersTable extends Migration
 {
@@ -17,13 +19,13 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('passwordConfirm');
-            $table->date('passwordChangeAt');
+            $table->string('passwordConfirm')->nullable();
+            $table->dateTime('passwordChangeAt')->default(Carbon::now());
             $table->string('name');
-            $table->unsignedBigInteger('address');
+            $table->unsignedBigInteger('address')->nullable();
             $table->string('phoneNumber');
-            $table->string('photo');
-            $table->string('role');
+            $table->string('photo')->default('/photos/user/default.png');
+            $table->string('role')->default('user');
             $table->foreign('address')->references('id')->on('locations');
         });
         DB::update('alter table users AUTO_INCREMENT= 1000');
