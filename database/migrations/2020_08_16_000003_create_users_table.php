@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('passwordConfirm')->nullable();
-            $table->dateTime('passwordChangeAt')->default(Carbon::now());
+            $table->dateTime('passwordChangedAt')->default(Carbon::now());
             $table->string('name');
             $table->unsignedBigInteger('address')->nullable();
             $table->string('phoneNumber');

@@ -24,7 +24,7 @@ class SignupRequest extends Request
     public function rules()
     {
         return [
-            'email' => 'required|unique:users',
+            'email' => 'required|unique:users|email',
             'name' => 'required',
             'password' => 'required',
             'passwordConfirm' => 'required|same:password',
@@ -34,6 +34,7 @@ class SignupRequest extends Request
     public function messages()
     {
         return [
+            'email.email' => 'Email không hợp lệ',
             'email.required' => 'Bạn cần nhập email',
             'email.unique' => 'Email này đã được sử dụng rồi',
             'name.required' => 'Bạn cần nhập tên',

@@ -19,12 +19,14 @@ class Apartment extends Model
         'status' 
     ];
 
+    public $timestamps = false;
+
     public function apartmentPhoto()
     {
         return $this->hasMany('App\ApartmentPhoto', 'idApartment','id');
     }
 
-    public function user()
+    public function users()
     {
         return $this->belongsTo('App\User', 'postedBy', 'id');
     }

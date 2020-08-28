@@ -1,0 +1,23 @@
+*, 
+*::before, 
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+
+    @media only screen and (max-width: $bp-medium) {
+      font-size: 56.25%;
+    }
+}
+
+body {
+    box-sizing: border-box;
+    min-height: 100vh;
+    min-width: $bp-small;
+    display: flex;
+    flex-direction: column;
+}

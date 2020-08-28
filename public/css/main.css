@@ -1,0 +1,99 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+@media only screen and (max-width: 56.25em) {
+  html {
+    font-size: 56.25%;
+  }
+}
+
+body {
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-width: 37.5em;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.header {
+  height: 5rem;
+  width: 100%;
+  background-color: #ff7171;
+  display: flex;
+  box-shadow: #000;
+  box-shadow: 1rem 1rem 2rem rgba(255, 113, 113, 0.75);
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.header__title {
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.mapbox {
+  background-color: #ffaa71;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 65rem;
+  height: 45rem;
+  align-self: center;
+  padding: 3rem 4rem;
+}
+
+.mapbox__search {
+  width: 100%;
+  display: flex;
+  font-size: 1.2rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.mapbox__search--text {
+  font-size: 1.4rem;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #40a8c4;
+  height: 2.75rem;
+  width: 14rem;
+}
+
+.mapbox__search--text:hover {
+  transform: scale(1.075, 1.08);
+  cursor: pointer;
+}
+
+.mapbox__search--input {
+  height: 3rem;
+  width: 40rem;
+  padding: 1rem 1.5rem;
+  outline: none;
+}
+
+.mapbox__map {
+  background-color: orangered;
+}
+

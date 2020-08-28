@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,10 +13,6 @@ use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use Illuminate\Support\Facades\Response;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException;
-use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-
-use function GuzzleHttp\json_decode;
 
 class AuthController extends Controller {
 
@@ -29,13 +26,13 @@ class AuthController extends Controller {
             'name' => $req->input('name'),
             'phoneNumber' => $req->input('phoneNumber')       
         ];
-        if ($req->input('address')) {
-            $user['address'] = $req->input('address');
+        if ($req->input('role')) {
+            $user['role'] = $req->input('role');
         }
+
         //Create new user using that infos
         $newUser = User::create($user);   
 
-        $newUser->makeVisible(['address', 'photo', 'role']);
         // Response cookie
         return $this->responseCookie($newUser, 201);
     }
@@ -78,45 +75,7 @@ class AuthController extends Controller {
     }
 
     public function isLoggedIn(Request $req) {
-        // There existing a cookie ?
-        if (!$req->cookie('jwt')) {
-            // User have not logged in yet
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'You haven\'t logged in yet! Please log in to continue'
-            ]);
-        }
-        // Get token from cookie
-        $token = $req->cookie('jwt');
-            
-        // Decode token
-        try {
-            $decoded = JWTAuth::setToken($token)->getPayload();
-            $decoded = json_decode($decoded);
-            // Check if token has expired, based on time expire from payload in decoded token
-        } catch (TokenExpiredException $e) { 
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'The token is invalid or has expired!'
-            ], 401);
-        } catch (TokenInvalidException $e) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'The token is invalid or has expired!'
-            ], 401);
-        }
-
-        // Get user based on id from payload in decoded token
-        $id = $decoded->sub;
-        $user = User::fields()->find($id);
-
-        // Check if user still exists
-        if (!$user) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'This user is not available'
-            ], 404);
-        }
+        $user = $req->user;
 
         // response json includes user's data
         return response()->json([
@@ -125,6 +84,38 @@ class AuthController extends Controller {
         ]);
         
     }
+
+    public function updatePassword(UpdatePasswordRequest $req) {
+        // Get required fields for updating password from req body
+        [
+            "currentPassword" => $currentPassword, 
+            "password" => $password, 
+            "passwordConfirm" => $passwordConfirm
+        ] = $req->input(); 
+
+        // Check password
+        $user = $req->user;
+        $user->makeVisible(['password']);
+        
+        if (!Hash::check($currentPassword, $user->password)) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'Mật khẩu không chính xác'
+            ], 401);
+        }
+
+        // OK -> continue updating password
+        $_user = User::find($user->id);
+        $_user->password = $password;
+        $_user->save();
+        
+        // Response success message
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cập nhật mật khẩu mới thành công'
+        ], 200);
+    }
+
     public function forgotPassword(Request $req) {
         return response()->json([
             'status' => 'fail',

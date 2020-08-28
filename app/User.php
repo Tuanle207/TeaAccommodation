@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,7 +23,9 @@ class User extends Authenticatable
         'name',
         'address',
         'phoneNumber',
-        'photo'
+        'photo',
+        'role',
+        'passwordChangedAt'
     ];
     public $timestamps = false;
 
@@ -41,9 +44,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Comment', 'idUser', 'id');
     }
 
-    public function apartment()
+    public function apartments()
     {
-        return $this->hasMany('App\Apartment', 'idUser', 'id');
+        return $this->hasMany('App\Apartment', 'id');
     }
 
     public function rating()
@@ -88,15 +91,16 @@ class User extends Authenticatable
 
     // Query Scopes
     public static function scopeFields($query) {
-        return $query->addSelect('id', 'name', 'photo', 'phoneNumber', 'address', 'email');
+        return $query->addSelect('id', 'name', 'photo', 'phoneNumber', 'address', 'email', 'role');
     }
 
     private static function handlePassword($user) {
-        if ($user->wasChanged('password') || !$user->exists) {
+        if ($user->wasChanged('password') || $user->isDirty('password') || !$user->exists) {
             $user->password = Hash::make($user->password, [
                 'rounds' => 12
             ]);
             $user->passwordConfirm = null;
+            $user->passwordChangedAt = Carbon::now();
         }
     }
 }

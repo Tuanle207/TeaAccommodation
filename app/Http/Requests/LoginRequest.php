@@ -24,13 +24,14 @@ class LoginRequest extends Request
     public function rules()
     {
         return [
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required'
         ];
     }
     public function messages()
     {
         return [
+            'email.email' => 'Email không hợp lệ',
             'email.required' => 'Bạn cần nhập email đăng nhập',
             'password.required' => 'Bạn cần nhập mật khẩu đăng nhập'
         ];

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateLocationsTable extends Migration
 {
@@ -16,7 +17,7 @@ class CreateLocationsTable extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->float('latitude');
-            $table->float('longlatitude');
+            $table->float('longitude');
             $table->string('description');
         });
         DB::update('alter table locations AUTO_INCREMENT= 1000');

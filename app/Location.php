@@ -8,9 +8,11 @@ class Location extends Model
 {
     protected $fillable = [
         'latitude',
-        'longlatitude',
+        'longitude',
         'description'
     ];
+
+    public $timestamps = false;
 
     public function apartment()
     {
