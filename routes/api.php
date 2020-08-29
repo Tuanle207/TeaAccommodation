@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\ApartmentController;
 use App\Http\Middleware\AuthenticationMiddleware;
-use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\AuthorizationMiddleware;
 use App\Http\Middleware\CheckApartmentExistenceMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -63,7 +61,7 @@ Route::prefix('/users') -> group(function() {
 | !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
 */
 
-// Apartment router
+// Apartment - Comment router
 Route::prefix('/apartments') -> group(function() {
   
     // Get list of apartments route
@@ -123,8 +121,8 @@ Route::prefix('/apartments') -> group(function() {
 | !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
 */
 
-// Comment router
-Route::prefix('/comments') -> group(function() {
+// User router
+Route::prefix('/users') -> group(function() {
     
     // Pass requests through authenticate middleware
     Route::middleware([AuthenticationMiddleware::class])->group(function() {
@@ -132,8 +130,6 @@ Route::prefix('/comments') -> group(function() {
     });
     
 });
-
-Route::resource('Apartment', 'ApartmentController');
 
 /*
 | !!! WARNING
@@ -144,7 +140,22 @@ Route::resource('Apartment', 'ApartmentController');
 | !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
 */
 
-Route::get('/test', function() {
-    return 1;
+// User router
+Route::prefix('/users') -> group(function() {
+    
+    // Pass requests through authenticate middleware
+    Route::middleware([AuthenticationMiddleware::class])->group(function() {
+
+    });
+    
 });
+
+
+// There is no api route left
+Route::any('/{any}', function($any = null) {
+    return response()->json([
+        'status' => 'fail',
+        'message' => 'This api route is not available'
+    ], 404);
+})->where('any', '.*');
 
