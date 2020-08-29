@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\User;
+use Carbon\Carbon;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -47,9 +48,20 @@ class AuthenticationMiddleware
             ], 401);
         }
 
-        // Get user based on id from payload in decoded token
+        // Get user includes additionally password, passwordChangedAt property based on id from payload in decoded token
         $id = $decoded->sub;
-        $user = User::fields()->addSelect('password')->find($id);
+        $user = User::fields()->addSelect(['password', 'passwordChangedAt'])->find($id);
+
+        // Get the time when token got issued (from decoded token) to compare with passwordChangedAt?
+        $iat = $decoded->iat;
+        if (Carbon::parse($user->passwordChangedAt)->timestamp > $iat) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'Bạn đã thay đổi mật khẩu gần đây. Vui lòng đăng nhập lại với mật khẩu mới!'
+            ]);
+        }
+
+
         // Check if user still exists
         if (!$user) {
             return response()->json([

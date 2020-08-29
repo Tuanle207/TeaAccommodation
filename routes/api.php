@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
+| !!! WARNING
+|
+|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF THE ROUTES!!!
+|        -> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
+|        *** A strongly important CAUTION from Tuanle207
+| !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING    
 */
 
 // Users router
@@ -48,14 +54,18 @@ Route::prefix('/users') -> group(function() {
     
 });
 
+/*
+| !!! WARNING
+|
+|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTE!!!
+|        -> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
+|        * A strongly important CAUTION from Tuanle207
+| !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
+*/
 
 // Apartment router
 Route::prefix('/apartments') -> group(function() {
   
-    // Get apartment's detail route
-    Route::get('/{id}', 'ApartmentController@getApartment')
-    ->middleware([CheckApartmentExistenceMiddleware::class]); // done
-
     // Get list of apartments route
 
 
@@ -96,10 +106,22 @@ Route::prefix('/apartments') -> group(function() {
             // Route::get('/{id}/comments', 'CommentController@createComment');
         });
     });
+
+    // Get apartment's detail route
+    Route::get('/{id}', 'ApartmentController@getApartment')
+    ->middleware([CheckApartmentExistenceMiddleware::class]); // done
+
 });
 
 
-
+/*
+| !!! WARNING
+|
+|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTE!!!
+|        -> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
+|        * A strongly important CAUTION from Tuanle207
+| !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
+*/
 
 // Comment router
 Route::prefix('/comments') -> group(function() {
@@ -113,6 +135,14 @@ Route::prefix('/comments') -> group(function() {
 
 Route::resource('Apartment', 'ApartmentController');
 
+/*
+| !!! WARNING
+|
+|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTE!!!
+|        -> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
+|        * A strongly important CAUTION from Tuanle207
+| !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
+*/
 
 Route::get('/test', function() {
     return 1;
