@@ -22,7 +22,9 @@ use Illuminate\Support\Facades\Route;
 | !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING    
 */
 
-// Users router
+/*
+     User router
+*/
 Route::prefix('/users') -> group(function() {
 
     // Signup route
@@ -55,13 +57,15 @@ Route::prefix('/users') -> group(function() {
 /*
 | !!! WARNING
 |
-|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTE!!!
+|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTES!!!
 |        -> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
 |        * A strongly important CAUTION from Tuanle207
 | !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
 */
 
-// Apartment - Comment router
+/*
+    Apartment router
+*/
 Route::prefix('/apartments') -> group(function() {
   
     // Get list of apartments route
@@ -91,17 +95,38 @@ Route::prefix('/apartments') -> group(function() {
                 Route::patch('/{id}/deactivate', 'ApartmentController@deactivateAvailabilityMode');// done
 
                 // Delete an apartment mode route
-                Route::delete('/{id}', 'ApartmentController@deleteApartment');
+                Route::delete('/{id}', 'ApartmentController@deleteApartment'); // done
             });
            
-            // Create a new comment about an apartment route
-            Route::post('/{id}/comments', 'CommentController@createComment');
+            /*
+                Comment route
+            */
+            Route::prefix('/{id}/comments')->group(function() {
+                // Create a new comment about an apartment route
+                Route::post('/', 'CommentController@createComment'); // done
 
-            //Delete a comment about an apartment route
-            Route::delete('/{id}/comments/{comment_id}', 'CommentController@deleteComment');
+                // Delete a comment about an apartment route
+                Route::delete('/{comment_id}', 'CommentController@deleteComment'); // done
 
-            // Get list of comments about an apartment route
-            Route::get('/{id}/comments', 'CommentController@getComments');
+                // Get list of comments about an apartment route
+                Route::get('/', 'CommentController@getComments'); // done
+            });
+            
+            /*
+                Rating route
+            */
+            Route::prefix('/{id}/ratings')->group(function() {
+
+                // Get user's rating for apartment
+                Route::get('/', 'RatingController@getRating');
+
+                // Ranking/ change ranking an apartment route
+                Route::post('/', 'RatingController@createOrUpdateRating');
+
+                // Cancel ranking an apartment route
+                Route::delete('/', 'RatingController@deleteRating');
+            });
+
         });
     });
 
@@ -115,40 +140,11 @@ Route::prefix('/apartments') -> group(function() {
 /*
 | !!! WARNING
 |
-|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTE!!!
+|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTES!!!
 |        -> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
 |        * A strongly important CAUTION from Tuanle207
 | !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
 */
-
-// User router
-Route::prefix('/users') -> group(function() {
-    
-    // Pass requests through authenticate middleware
-    Route::middleware([AuthenticationMiddleware::class])->group(function() {
-
-    });
-    
-});
-
-/*
-| !!! WARNING
-|
-|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTE!!!
-|        -> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
-|        * A strongly important CAUTION from Tuanle207
-| !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
-*/
-
-// User router
-Route::prefix('/users') -> group(function() {
-    
-    // Pass requests through authenticate middleware
-    Route::middleware([AuthenticationMiddleware::class])->group(function() {
-
-    });
-    
-});
 
 
 // There is no api route left

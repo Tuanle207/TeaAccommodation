@@ -20,4 +20,6 @@ class Apartment extends Model
     ];
 
     public $timestamps = false;
+
+    
 }
