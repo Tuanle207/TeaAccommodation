@@ -1,8 +1,3 @@
-//import getMap from './map';
-
-
-window.addEventListener('load', getMap);
-
 
 function getCircle(loc, radius) {
     var R = 6371; // earth's mean radius in km
@@ -21,7 +16,9 @@ function getCircle(loc, radius) {
     return locs;
 }
 
-function getMap() {
+//let map = {};
+
+export default function getMap() {
     navigator.geolocation.getCurrentPosition(location => {
         const {latitude, longitude} = location.coords;
         const map = new Microsoft.Maps.Map('#map', {

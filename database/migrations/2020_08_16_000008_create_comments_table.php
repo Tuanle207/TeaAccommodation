@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class CreateCommentsTable extends Migration
 {
@@ -18,7 +20,7 @@ class CreateCommentsTable extends Migration
             $table->string('text');
             $table->unsignedBigInteger('idApartment');
             $table->unsignedBigInteger('idUser');
-            $table->date('commentedAt');
+            $table->dateTime('commentedAt')->default(Carbon::now());
             $table->foreign('idApartment')->references('id')->on('apartments');
             $table->foreign('idUser')->references('id')->on('users');
         });

@@ -8,7 +8,7 @@ use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class AuthMiddleware
+class AuthenticationMiddleware
 {
     /**
      * Handle an incoming request.

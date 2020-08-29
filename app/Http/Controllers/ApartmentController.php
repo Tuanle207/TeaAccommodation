@@ -47,14 +47,7 @@ class ApartmentController extends Controller {
     }
 
     public function getApartment(Request $req, $id) {
-        $apartment = Apartment::find($id);
-
-        if (!$apartment) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Phòng trọ này không tồn tại'
-            ], 404);
-        }
+        $apartment = $req->input('apartment');
 
         return response()->json([
             'status' => 'success',
@@ -64,32 +57,12 @@ class ApartmentController extends Controller {
 
     public function updateApartment(ApartmentModificationRequest $req, $id) {
 
-        // check if this apartment exists?
-        $apartment = Apartment::find($id);
-        if (!$apartment) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Phòng trọ này không tồn tại'
-            ], 404);
-        }
-
-        // check if this apartment belongs to this user?
-        $user = $req->input('user');
-        if ($apartment->postedBy != $user->id) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Chỉ người đăng phòng trọ này mới có thể cập nhật thông tin phòng trọ'
-            ], 404);
-        }
+        // get apartment from previous middleware
+        $apartment = $req->input('apartment');
 
         // get required apartment's info from $req
-        $input = $req->input();
+        $input = $req->except(['apartment', 'user']);
         
-        // return  response()->json([
-        //     'status' => 'success',
-        //     'data' => $input
-        // ], 201);;
-
         $apartmentInfo = [];
         // fitler allowed modified fields
         $fieldsFilter = ['title', 'description', 'rent', 'area', 'phoneContact'];
@@ -103,13 +76,41 @@ class ApartmentController extends Controller {
             }
         }
         
-        // save new apartment
-        $storedApartment = Apartment::where('id', $id)->update($apartmentInfo);
+        // save the apartment
+        Apartment::where('id', $id)->update($apartmentInfo);
 
         return response()->json([
             'status' => 'success',
-            'data' => $storedApartment
-        ], 201);
+            'data' => null
+        ], 200);
+    }
+
+    public function activateAvailabilityMode(Request $req, $id) {
+        // còn phòng
+        Apartment::where('id', $id)->update(['status' => 'còn phòng']);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => null
+        ], 200);
+    }
+
+    public function deactivateAvailabilityMode(Request $req, $id) {
+        // hết phòng
+        Apartment::where('id', $id)->update(['status' => 'hết phòng']);
+
+        return response()->json([
+            'status' => 'success',
+            'data' => null
+        ], 200);
     }
     
+    public function deleteApartment(Request $req, $id) {
+        Apartment::where('id', $id)->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'data' => null
+        ], 204);
+    }
 }

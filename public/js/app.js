@@ -93,6 +93,9 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+//import getMap from './map';
+window.addEventListener('load', getMap);
+
 function getCircle(loc, radius) {
   var R = 6371; // earth's mean radius in km
 
@@ -122,7 +125,6 @@ function getMap() {
     var _location$coords = location.coords,
         latitude = _location$coords.latitude,
         longitude = _location$coords.longitude;
-    console.log(location);
     var map = new Microsoft.Maps.Map('#map', {
       center: new Microsoft.Maps.Location(latitude, longitude),
       zoom: 12
@@ -144,32 +146,8 @@ function getMap() {
     });
     map.entities.push(pin);
     map.entities.push(circle);
-    Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
-      var manager = new Microsoft.Maps.AutosuggestManager({
-        map: map
-      });
-      manager.attachAutosuggest('#search_box', '#mapbox__search', selectedSuggestion);
-    });
-    var searchBoxDOM = document.querySelector('#search_box');
-    searchBoxDOM.style.height = '3rem';
-    searchBoxDOM.style.width = '40rem';
-    searchBoxDOM.style.padding = '1rem 1.5rem';
-    searchBoxDOM.style.outline = 'none';
   });
 }
-
-function selectedSuggestion(result) {
-  //Remove previously selected suggestions from the map.
-  map.entities.clear(); //Show the suggestion as a pushpin and center map over it.
-
-  var pin = new Microsoft.Maps.Pushpin(result.location);
-  map.entities.push(pin);
-  map.setView({
-    bounds: result.bestView
-  });
-}
-
-window.addEventListener('load', getMap);
 
 /***/ }),
 
