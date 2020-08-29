@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;
+
 class ApartmentModificationRequest extends Request
 {
     /**

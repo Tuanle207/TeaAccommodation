@@ -13,14 +13,4 @@ class Location extends Model
     ];
 
     public $timestamps = false;
-
-    public function apartment()
-    {
-        return $this->hasMany('App\Apartment', 'location', 'id');
-    }
-
-    public function user()
-    {
-        return $this->hasMAny('App\User','address','id');
-    }
 }

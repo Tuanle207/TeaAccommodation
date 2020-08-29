@@ -13,20 +13,9 @@ class Comment extends Model
         'commentedAt',
     ];
 
-    public function commentPhoto()
-    {
-        return $this->hasMany('App\CommentPhoto', 'idApartment','id');
+    public $timestamps = false;
+
+    public function user() {
+        return $this->hasOne('App\User', 'id', 'idUser');
     }
-
-    public function user()
-    {
-        return $this->belongsTo('App\User', 'idUser', 'id');
-    }
-
-    public function apartment()
-    {
-        return $this->belongsTo('App\Apartment', 'idApartment', 'id');
-    }
-
-
 }

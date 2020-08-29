@@ -8,12 +8,22 @@ use Illuminate\Contracts\Validation\Validator;
 
 class Request extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+    
     protected function failedValidation(Validator $validator)
     {
         $messages = $validator->errors();
         throw new HttpResponseException(response()->json([
             'status' => 'fail',
-            'messages' => $messages
+            'message' => $messages
         ], 400));
     }
 }

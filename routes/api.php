@@ -99,11 +99,11 @@ Route::prefix('/apartments') -> group(function() {
             // Create a new comment about an apartment route
             Route::post('/{id}/comments', 'CommentController@createComment');
 
-            // Delete a comment about an apartment route
-            //Route::delete('/{id}/comments/{comment_id}', 'CommentController@createComment');
+            //Delete a comment about an apartment route
+            Route::delete('/{id}/comments/{comment_id}', 'CommentController@deleteComment');
 
             // Get list of comments about an apartment route
-            // Route::get('/{id}/comments', 'CommentController@createComment');
+            Route::get('/{id}/comments', 'CommentController@getComments');
         });
     });
 
