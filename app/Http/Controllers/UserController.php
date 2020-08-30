@@ -43,7 +43,7 @@ class UserController extends Controller
         // loop through body to handle updating
         foreach ($body as $key => $value) {
             // handle image file
-            if ($key == 'photox') {
+            if ($key == 'photo') {
                 // delete user's old photo
                 if ($user->photo != '/photo/user/default.png' && $user->photo != null) {
                     ImageHandler::deleteImage($user->photo);
