@@ -19,7 +19,7 @@ class CreateServicesTable extends Migration
             $table->string('name');
             $table->string('price');
         });
-        DB::update('alter table services AUTO_INCREMENT= 1000');
+        DB::update('alter table services AUTO_INCREMENT= 10000');
     }
 
     /**

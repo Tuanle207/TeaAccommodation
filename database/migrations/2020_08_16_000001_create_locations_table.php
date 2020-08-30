@@ -20,7 +20,7 @@ class CreateLocationsTable extends Migration
             $table->float('longitude');
             $table->string('description');
         });
-        DB::update('alter table locations AUTO_INCREMENT= 1000');
+        DB::update('alter table locations AUTO_INCREMENT= 10000');
     }
 
     /**

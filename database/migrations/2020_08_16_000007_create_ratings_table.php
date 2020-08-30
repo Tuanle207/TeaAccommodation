@@ -22,7 +22,7 @@ class CreateRatingsTable extends Migration
             $table->foreign('idApartment')->references('id')->on('apartments');
             $table->foreign('idUser')->references('id')->on('users');
         });
-        DB::update('alter table ratings AUTO_INCREMENT= 1000');
+        DB::update('alter table ratings AUTO_INCREMENT= 10000');
     }
 
     /**

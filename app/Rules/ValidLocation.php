@@ -26,8 +26,9 @@ class ValidLocation implements Rule
      */
     public function passes($attribute, $value)
     {
+        $parsedAddress = json_decode($value);
         try {
-            return $value['latitude'] && $value['longitude'] && $value['description'];
+            return $parsedAddress->latitude && $parsedAddress->longitude && $parsedAddress->description;
         } catch (Exception $e) {
             return false;
         }
@@ -41,6 +42,6 @@ class ValidLocation implements Rule
      */
     public function message()
     {
-        return 'Địa chỉ không hợp lệ';
+        return 'Vui lòng nhập chính xác địa chỉ';
     }
 }

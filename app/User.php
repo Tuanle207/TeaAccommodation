@@ -40,6 +40,10 @@ class User extends Authenticatable
         'passwordChangedAt'
     ];
 
+    public function address() {
+        return $this->hasOne('App\Location', 'id', 'adrress');
+    }
+
     public function apartments()
     {
         return $this->hasMany('App\Apartment', 'id');

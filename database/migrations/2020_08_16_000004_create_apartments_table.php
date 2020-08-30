@@ -29,7 +29,7 @@ class CreateApartmentsTable extends Migration
             $table->foreign('postedBy')->references('id')->on('users');
             $table->foreign('location')->references('id')->on('locations');
         });
-        DB::update('alter table apartments AUTO_INCREMENT= 1000');
+        DB::update('alter table apartments AUTO_INCREMENT= 10000');
     }
 
     /**

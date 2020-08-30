@@ -95,7 +95,6 @@ class AuthController extends Controller {
 
         // Check password
         $user = $req->user;
-        $user->makeVisible(['password']);
         
         if (!Hash::check($currentPassword, $user->password)) {
             return response()->json([
@@ -110,10 +109,7 @@ class AuthController extends Controller {
         $_user->save();
         
         // Response success message
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Cập nhật mật khẩu mới thành công'
-        ], 200);
+        return $this->responseCookie($_user, 200);
     }
 
     public function forgotPassword(Request $req) {

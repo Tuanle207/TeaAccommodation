@@ -14,13 +14,18 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
+*/
+
+
+/*
 | !!! WARNING
 |
-|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF THE ROUTES!!!
+|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTES!!!
 |        -> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
-|        *** A strongly important CAUTION from Tuanle207
-| !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING    
+|        * A strongly important CAUTION from Tuanle207
+| !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
 */
+
 
 /*
      User router
@@ -50,6 +55,12 @@ Route::prefix('/users') -> group(function() {
 
         // Reset password route
         Route::patch('/resetPassword/{token}', 'AuthController@resetPassword');
+
+        // Get user profile
+        Route::get('/profile', 'UserController@getUserProfile'); // done
+
+        // Update user profile
+        Route::post('/profile/edit', 'UserController@updateUserProfile');
     });
     
 });

@@ -21,7 +21,7 @@ class CreateApartmentServicesTable extends Migration
             $table->foreign('idApartment')->references('id')->on('apartments');
             $table->foreign('idService')->references('id')->on('services');
         });
-        DB::update('alter table apartment_services AUTO_INCREMENT= 1000');
+        DB::update('alter table apartment_services AUTO_INCREMENT= 10000');
     }
 
     /**

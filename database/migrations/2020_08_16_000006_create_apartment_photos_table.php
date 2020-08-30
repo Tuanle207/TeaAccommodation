@@ -19,7 +19,7 @@ class CreateApartmentPhotosTable extends Migration
             $table->string('source');
             $table->foreign('idApartment')->references('id')->on('apartments');
         });
-        DB::update('alter table apartment_photos AUTO_INCREMENT= 1000');
+        DB::update('alter table apartment_photos AUTO_INCREMENT= 10000');
     }
 
     /**

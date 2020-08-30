@@ -19,7 +19,7 @@ class CreateCommentPhotosTable extends Migration
             $table->string('source');
             $table->foreign('idComment')->references('id')->on('comments');
         });
-        DB::update('alter table comment_photos AUTO_INCREMENT= 1000');
+        DB::update('alter table comment_photos AUTO_INCREMENT= 10000');
     }
 
     /**
