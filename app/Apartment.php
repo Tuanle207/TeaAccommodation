@@ -19,6 +19,10 @@ class Apartment extends Model
         'status' 
     ];
 
+    protected $hidden = [
+        'views'
+    ];
+
     public $timestamps = false;
 
     

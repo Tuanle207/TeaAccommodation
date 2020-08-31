@@ -24,9 +24,9 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->unsignedBigInteger('address')->nullable();
             $table->string('phoneNumber');
-            $table->string('photo')->default('/photos/user/default.png');
+            $table->string('photo')->default('/photo/user/default.png');
             $table->string('role')->default('user');
-            $table->foreign('address')->references('id')->on('locations');
+            $table->foreign('address')->references('id')->on('addresses');
         });
         DB::update('alter table users AUTO_INCREMENT= 10000');
     }

@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use App\Rules\ValidLocation;
+use Illuminate\Validation\Rule;
+
 
 class SignupRequest extends Request
 {
@@ -19,7 +22,10 @@ class SignupRequest extends Request
             'name' => 'required',
             'password' => 'required',
             'passwordConfirm' => 'required|same:password',
-            'phoneNumber' => 'required'
+            'phoneNumber' => 'required',
+            'role' => Rule::in(['user', 'landlord']),
+            'address' => new ValidLocation,
+            'photo' => 'image | max:5242880'
         ];
     }
     public function messages()
@@ -32,7 +38,11 @@ class SignupRequest extends Request
             'password.required' => 'Bạn cần nhập mật khẩu mới',
             'passwordConfirm.required' => 'Bạn cần xác nhận mật khẩu mới',
             'passwordConfirm.same' => 'Mật khẩu mới không trùng khớp',
-            'phoneNumber.required' => "Bạn cần nhập số điện thoại"
+            'phoneNumber.required' => "Bạn cần nhập số điện thoại",
+            'role' => 'Loại người dùng không hợp lệ',
+            'address' => (new ValidLocation)->message(),
+            'photo.image' => 'Định dang ảnh không hợp lệ hoặc không được hỗ trợ',
+            'photo.max' => 'Kích thước ảnh tối đa là 5MB'
         ];
     }
 }

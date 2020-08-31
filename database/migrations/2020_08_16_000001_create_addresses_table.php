@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
-class CreateLocationsTable extends Migration
+class CreateAddressesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,13 +14,17 @@ class CreateLocationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
+            $table->string('street');
+            $table->string('ward');
+            $table->string('district');
+            $table->string('city');
+
             $table->float('latitude');
             $table->float('longitude');
-            $table->string('description');
         });
-        DB::update('alter table locations AUTO_INCREMENT= 10000');
+        DB::update('alter table addresses AUTO_INCREMENT= 10000');
     }
 
     /**

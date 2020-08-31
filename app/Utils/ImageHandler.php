@@ -11,7 +11,7 @@ class ImageHandler {
 
         // 1) get file extension
         $fileExtension = $originalImage->getClientOriginalExtension();
-
+       
         // 2) create unique filename
         $fileName = $id . Carbon::now()->timestamp . rand(0, 10032000) . '.' . $fileExtension;
 

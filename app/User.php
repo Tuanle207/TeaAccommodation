@@ -63,6 +63,10 @@ class User extends Authenticatable
         return $query->addSelect('id', 'name', 'photo', 'phoneNumber', 'address', 'email', 'role');
     }
 
+    public static function scopePostedBy($query) {
+        return $query->addSelect('id', 'name', 'photo');
+    }
+
     private static function handlePassword($user) {
         if ($user->wasChanged('password') || $user->isDirty('password') || !$user->exists) {
             $user->password = Hash::make($user->password, [

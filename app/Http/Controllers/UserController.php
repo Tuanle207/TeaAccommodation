@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserProfileRequest;
+use App\Utils\ImageHandler;
 use App\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use App\Utils\ImageHandler;
+
 
 class UserController extends Controller
 {
@@ -51,6 +52,13 @@ class UserController extends Controller
                 // Store new photo
                 $path = ImageHandler::storeImage($user->id, $value, 'user');
                 
+                if ($path == null) {
+                    return response()->json([
+                        'status' => 'fail',
+                        'message' => 'Định dạng ảnh không được hỗ trợ'
+                    ]);
+                }
+
                 // save image path in user->photo 
                 $user->photo = $path;
 

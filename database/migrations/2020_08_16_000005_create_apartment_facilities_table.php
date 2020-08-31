@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
-class CreateApartmentServicesTable extends Migration
+class CreateApartmentFacilitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,14 +14,14 @@ class CreateApartmentServicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('apartment_services', function (Blueprint $table) {
+        Schema::create('apartment_facilities', function (Blueprint $table) {
             $table->unsignedBigInteger('idApartment');
-            $table->unsignedBigInteger('idService');
-            $table->primary(['idApartment', 'idService' ]);
+            $table->unsignedBigInteger('idFacility');
+            $table->primary(['idApartment', 'idFacility' ]);
             $table->foreign('idApartment')->references('id')->on('apartments');
-            $table->foreign('idService')->references('id')->on('services');
+            $table->foreign('idFacility')->references('id')->on('facilities');
         });
-        DB::update('alter table apartment_services AUTO_INCREMENT= 10000');
+        DB::update('alter table apartment_facilities AUTO_INCREMENT= 10000');
     }
 
     /**

@@ -20,7 +20,9 @@ class CreateCommentsTable extends Migration
             $table->string('text');
             $table->unsignedBigInteger('idApartment');
             $table->unsignedBigInteger('idUser');
+            $table->string('photo')->nullable();
             $table->dateTime('commentedAt')->default(Carbon::now());
+
             $table->foreign('idApartment')->references('id')->on('apartments');
             $table->foreign('idUser')->references('id')->on('users');
         });

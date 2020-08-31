@@ -7,6 +7,7 @@ use App\Http\Requests\ApartmentModificationRequest;
 use App\Http\Requests\CreateApartmentRequest;
 use App\Apartment;
 use App\Location;
+use App\User;
 
 class ApartmentController extends Controller {
 
@@ -48,6 +49,15 @@ class ApartmentController extends Controller {
 
     public function getApartment(Request $req, $id) {
         $apartment = $req->input('apartment');
+
+        // get address of the apartment
+        $address = Location::find($apartment->location);
+        unset($address->id);
+        $apartment->location = $address;
+
+        // get user postes the apartment
+        $user = User::postedBy()->where('id', $apartment->postedBy)->first();
+        $apartment->postedBy = $user;
 
         return response()->json([
             'status' => 'success',

@@ -17,6 +17,8 @@ class CreateApartmentPhotosTable extends Migration
         Schema::create('apartment_photos', function (Blueprint $table) {
             $table->unsignedBigInteger('idApartment');
             $table->string('source');
+            
+            $table->primary(['idApartment', 'source']);
             $table->foreign('idApartment')->references('id')->on('apartments');
         });
         DB::update('alter table apartment_photos AUTO_INCREMENT= 10000');

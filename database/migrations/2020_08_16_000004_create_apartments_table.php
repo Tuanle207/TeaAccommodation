@@ -19,15 +19,17 @@ class CreateApartmentsTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->unsignedBigInteger('postedBy');
-            $table->unsignedBigInteger('location');
+            $table->unsignedBigInteger('address');
             $table->unsignedBigInteger('rent');
             $table->float('area');
             $table->string('phoneContact');
             $table->float('rating')->nullable();
             $table->unsignedBigInteger('views')->default(0);
             $table->string('status')->default('còn phòng'); // còn phòng hoặc hết phòng
+            $table->boolean('active')->default(true);
+
             $table->foreign('postedBy')->references('id')->on('users');
-            $table->foreign('location')->references('id')->on('locations');
+            $table->foreign('address')->references('id')->on('addresses');
         });
         DB::update('alter table apartments AUTO_INCREMENT= 10000');
     }
