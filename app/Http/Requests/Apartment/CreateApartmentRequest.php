@@ -17,8 +17,8 @@ class CreateApartmentRequest extends ApartmentModificationRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'required | max:200',
+            'description' => 'required | max:600',
             'address' => ['required', new ValidAddress],
             'rent' => 'required|numeric|min:0',
             'area' => 'required|numeric|min:0',
@@ -35,6 +35,8 @@ class CreateApartmentRequest extends ApartmentModificationRequest
     {
         return [
             'title.required' => 'Bạn cần nhập tiêu đề phòng trọ',
+            'title.max' => 'Tiêu đề phòng trọ không được vượt quá 200 kí tự',
+            'description.max' => 'Mô tả phòng trọ không được vượt quá 200 kí tự',
             'description.required' => 'Bạn cần nhập mô tả phòng trọ',
             'address.required' => 'Bạn cần xác định địa chỉ trọ',
             'address' => (new ValidAddress)->message(),

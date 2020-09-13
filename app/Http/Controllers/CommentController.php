@@ -11,12 +11,16 @@ class CommentController extends Controller
     public function createComment(CreateCommentRequest $req, $id) {
         
         // get required infos
-        $input = $req->input();
+        $input = $req->all();
+
+        // save image
+
         $commentInfo = [
-            'text' => $req->input('text'),
+            'text' => $input['text'],
             'idApartment' => $id,
             'idUser' =>  $req->input('user')->id
         ];
+
 
         // save to DB
         $comment = Comment::create($commentInfo);

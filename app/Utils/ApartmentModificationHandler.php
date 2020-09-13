@@ -42,7 +42,7 @@ class ApartmentModificationHandler {
             
             } // 2.) Handle image files
             else if (in_array($key, ['photo_1', 'photo_2', 'photo_3', 'photo_4'])) {
-                // Delete apartment's old photo
+                // Delete apartment's old photos
                 if ($apartment->id !== null) {
                     // get all photos
                     $tempPhotos = $apartment->photos;

@@ -3,6 +3,7 @@
 /public/storage
 /public/photo/user/*
 /public/photo/apartment/*
+/public/photo/comment/*
 /storage/*.key
 /vendor
 .env.backup
