@@ -4,9 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ApartmentPhoto extends Model
+class Parameter extends Model
 {
     protected $fillable = [
-        'source'
+        'name', 
+        'value'
     ];
+
+
+    public $timestamps = false;
+
 }

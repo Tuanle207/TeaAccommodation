@@ -17,12 +17,15 @@ class CreateApartmentsTable extends Migration
         Schema::create('apartments', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('description');
+            $table->string('description', 600);
             $table->unsignedBigInteger('postedBy');
             $table->unsignedBigInteger('address');
             $table->unsignedBigInteger('rent');
             $table->float('area');
             $table->string('phoneContact');
+            $table->string('photos');
+            $table->string('facilities');
+
             $table->float('rating')->nullable();
             $table->unsignedBigInteger('views')->default(0);
             $table->string('status')->default('còn phòng'); // còn phòng hoặc hết phòng
@@ -31,7 +34,7 @@ class CreateApartmentsTable extends Migration
             $table->foreign('postedBy')->references('id')->on('users');
             $table->foreign('address')->references('id')->on('addresses');
         });
-        DB::update('alter table apartments AUTO_INCREMENT= 10000');
+        DB::update('alter table apartments AUTO_INCREMENT = 10000');
     }
 
     /**

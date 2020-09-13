@@ -5,7 +5,6 @@ namespace App\Utils;
 use App\Address;
 use App\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Mockery\Undefined;
 
 class UserModificationHanlder {
     /**
@@ -38,7 +37,7 @@ class UserModificationHanlder {
                 }
 
                 // user have already had some address? otherwise, create new Address model
-                $address =  !property_exists($key, $user) ? new Address : Address::find($user->address); 
+                $address = !property_exists($key, $user) ? new Address : Address::find($user->address); 
 
                 // update address info
                 foreach ($parsedAddress as $key => $value)

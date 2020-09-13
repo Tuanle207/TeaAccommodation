@@ -3,9 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+
+use function GuzzleHttp\json_decode;
 
 class Apartment extends Model
 {
+    use Notifiable;
+    
     protected $fillable = [
         'title', 
         'description',
@@ -26,5 +31,14 @@ class Apartment extends Model
 
     public $timestamps = false;
 
+    // Events
+    public static function boot() {
+        parent::boot();
+
+        self::retrieved(function($apartment) {
+            $apartment->photos = json_decode($apartment->photos);
+            $apartment->facilities = json_decode($apartment->facilities);
+        });
+    }
     
 }

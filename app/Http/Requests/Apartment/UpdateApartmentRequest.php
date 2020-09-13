@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\ValidLocation;
+use App\Rules\ValidAddress;
 
 class UpdateApartmentRequest extends ApartmentModificationRequest
 {
@@ -22,7 +22,7 @@ class UpdateApartmentRequest extends ApartmentModificationRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'location' => ['required', new ValidLocation],
+            'address' => ['required', new ValidAddress],
             'rent' => 'required|numeric|min:0',
             'area' => 'required|numeric|min:0',
             'phoneContact' => 'required',
@@ -38,8 +38,8 @@ class UpdateApartmentRequest extends ApartmentModificationRequest
         return [
             'title.required' => 'Bạn cần nhập tiêu đề phòng trọ',
             'description.required' => 'Bạn cần nhập mô tả phòng trọ',
-            'location.required' => 'Bạn cần xác định địa chỉ trọ',
-            'location' => (new ValidLocation)->message(),
+            'address.required' => 'Bạn cần xác định địa chỉ trọ',
+            'address' => (new ValidAddress)->message(),
             'rent.required' => 'Bạn cần nhập giá thuê theo tháng',
             'rent.min' => 'Giá thuê không hợp lệ',
             'rent.numeric' => 'Giá thuê không hợp lệ',

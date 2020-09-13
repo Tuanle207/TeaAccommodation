@@ -5,7 +5,7 @@ namespace App\Rules;
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
 
-class ValidLocation implements Rule
+class ValidAddress implements Rule
 {
     /**
      * Create a new rule instance.

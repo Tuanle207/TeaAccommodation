@@ -7,16 +7,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ApartmentModificationRequest;
 use App\Http\Requests\CreateApartmentRequest;
 use App\Apartment;
-use App\Location;
 use App\User;
+use App\Utils\ApartmentModificationHandler;
+
+use function GuzzleHttp\json_decode;
 
 class ApartmentController extends Controller {
 
     public function createApartment(CreateApartmentRequest $req) {
-        // get required apartment's info from $req
-
-        $apartment = new Apartment;
-
+        // field filter
         $filter = [
             'title',
             'description',
@@ -26,42 +25,38 @@ class ApartmentController extends Controller {
             'phoneContact'
         ];
 
+        // get required apartment's info from $req
         $body = $req->all();
-
-        
-
-        // get and save the location
-        $location = $req->input('location');
-        $storedLocation = Address::create($location);
-        $apartment['location'] = $storedLocation->id;
+        $body['postedBy'] = $req->input('user')->id;
         
         // save new apartment
-        $storedApartment = Apartment::create($apartment);
+        $storedApartment = ApartmentModificationHandler::saveApartment(new Apartment, $body, $filter);
 
         return response()->json([
             'status' => 'success',
             'data' => $storedApartment
         ], 201);
-
     }
 
     public function getPostedApartments(ApartmentModificationRequest $req) {
 
         $apartments = Apartment::where('postedBy', $req->input('user')->id)->get();
-        
+
         return response()->json([
             'message' => 'success',
             'data' => $apartments
         ], 200);
     }
 
-    public function getApartment(Request $req, $id) {
+    public function getApartment(Request $req) {
+
+        // get apartment from previous middleware 
         $apartment = $req->input('apartment');
 
         // get address of the apartment
         $address = Address::find($apartment->location);
         unset($address->id);
-        $apartment->location = $address;
+        $apartment->address = $address;
 
         // get user postes the apartment
         $user = User::postedBy()->where('id', $apartment->postedBy)->first();
@@ -73,35 +68,29 @@ class ApartmentController extends Controller {
         ], 200);
     }
 
-    public function updateApartment(ApartmentModificationRequest $req, $id) {
+    public function updateApartment(ApartmentModificationRequest $req) {
 
         // get apartment from previous middleware
         $apartment = $req->input('apartment');
 
+          // field filter
+          $filter = [
+            'title',
+            'description',
+            'rent',
+            'area',
+            'phoneContact'
+        ];
+
         // get required apartment's info from $req
-        $input = $req->except(['apartment', 'user']);
+        $body = $req->all();
         
-        $apartmentInfo = [];
-        // fitler allowed modified fields
-        $fieldsFilter = ['title', 'description', 'rent', 'area', 'phoneContact'];
-        
-        foreach ($input as $key => $value ) {
-            if ($key == 'address') {
-                $address = $input['address'];
-                Address::where('id', $apartment->location)->update($address);
-            } 
-            // update other fields
-            else if (in_array($key, $fieldsFilter)) {
-                $apartmentInfo[$key] = $value;
-            }
-        }
-        
-        // save the apartment
-        Apartment::where('id', $id)->update($apartmentInfo);
+        // save new apartment
+        $storedApartment = ApartmentModificationHandler::saveApartment(new Apartment, $body, $filter);
 
         return response()->json([
             'status' => 'success',
-            'data' => null
+            'data' => $storedApartment
         ], 200);
     }
 

@@ -149,7 +149,7 @@ class AuthController extends Controller {
             '/',
             null, 
             null, 
-            env('APP_ENV') == 'production' ? true : false
+            env('APP_ENV') === 'production' ? true : false
         );
 
         // Return json response includes cookies

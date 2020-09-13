@@ -28,7 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('role')->default('user');
             $table->foreign('address')->references('id')->on('addresses');
         });
-        DB::update('alter table users AUTO_INCREMENT= 10000');
+        DB::update('alter table users AUTO_INCREMENT = 10000');
     }
 
     /**

@@ -3,63 +3,72 @@
 namespace App\Utils;
 
 use App\Address;
-use Illuminate\Support\Facades\Http;
+use App\ApartmentPhoto;
+use App\Facility;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ApartmentModificationHandler {
 
     public static function saveApartment($apartment, $body, $filter) {
         // temp object for store location option
         $address = null;
+        $photos = [];
 
         // loop through body to handle updating
         foreach ($body as $key => $value) {
-            // handle image file
-            if (in_array($key, ['photo_1', 'photo_2', 'photo_3', 'photo_4'])) {
-                // delete apartment's old photo
-                if ($apartment->photo != null && $apartment->photo != '/photo/apartment/default.png') {
-                    ImageHandler::deleteImage($apartment->photo);
-                }
-                // Store new photo
-                $path = ImageHandler::storeImage($apartment->id, $value, 'apartment');
-
-                // save image path in apartment->photo 
-                $apartment->photo = $path;
-
-            // handle address
-            } else if ($key == 'address') {
+            if ($key === 'address') {
                 // parse json stringified
                 $parsedAddress = json_decode($value);
 
                 // apartment have already had some address?
-                $address = $apartment->address != null ? $address = Address::find($apartment->address) : new Address;
+                $address = !property_exists($key, $apartment) ? new Address : Address::find($apartment->address); 
+            
                 // update address info
-                $addressFiler = ['street', 'ward', 'district', 'city'];
-                $query =    $parsedAddress[$addressFiler[0]] . 
-                            $parsedAddress[$addressFiler[1]] . 
-                            $parsedAddress[$addressFiler[2]] . 
-                            $parsedAddress[$addressFiler[3]];
-                foreach ($parsedAddress as $key => $value) {
-                    $address[$key] = $value;
+                foreach ($parsedAddress as $key => $value)
+                    if (in_array($key, ['street', 'ward', 'district', 'city', 'latitude', 'longitude']))
+                        $address[$key] = $value;
+                
+                // save address in DB
+                $address->save();
+
+                // apartment have not any address yet?
+                if (!property_exists($key, $apartment)) $apartment->address = $address->id;
+                unset($address->id);
+            
+            } // Handle image files
+            else if (in_array($key, ['photo_1', 'photo_2', 'photo_3', 'photo_4'])) {
+                // Delete apartment's old photo
+                if ($apartment->id !== null) {
+                    // get all photos
+                    $tempPhotos = ApartmentPhoto::where('idApartment', $apartment->id);
+                    // delete all photos
+                    foreach ($tempPhotos as $index => $photo)
+                        ImageHandler::deleteImage($tempPhotos); 
                 }
                 
-                $url = 'http://dev.virtualearth.net/REST/v1/Locations/'. $query .'?key=' . env('BINGMAP_API_KEY');
-                $response = Http::get($url);
-                dd($response);
-                // save
-                $address->save();
-                // apartment have not any address yet?
-                if ($apartment->address == null) $apartment->address = $address->id;
-            
-            // handle others
-            } else if (in_array($key, $filter)) $apartment[$key] = $value;
+                // Store new photo
+                $path = ImageHandler::storeImage($apartment->id, $value, 'apartment');
+
+                // push to photos array
+                array_push($photos, $path);
+
+            } else if ($key === 'facilities') {
+
+                
+            } // handle others 
+            else if (in_array($key, $filter)) $apartment[$key] = $value;
         }
 
-        //Create or save apartment using that infos
-        $savedApartment = $apartment->save();
-        unset($address->id);
+        // Save photos' info
+        $apartment->photos = json_encode($photos);
 
-        // attach address to apartment
-        $savedApartment->address = $address;
-        return $savedApartment;
+        // Create or save apartment using that infos
+        $apartment->save();
+
+        // attach address, photos to apartment
+        $apartment->address = $address;
+        $apartment->photos = $photos; 
+
+        return $apartment;
     }
 }

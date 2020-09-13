@@ -14,7 +14,7 @@ class ApartmentModificationRequest extends Request
      */
     public function authorize()
     {
-        return $this->user->role == 'landlord';
+        return $this->user->role === 'landlord';
     }
 
     /**

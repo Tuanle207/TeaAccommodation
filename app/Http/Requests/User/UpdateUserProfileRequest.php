@@ -3,8 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
-use App\Rules\ValidImage;
-use App\Rules\ValidLocation;
+use App\Rules\ValidAddress;
 
 class UpdateUserProfileRequest extends Request
 {
@@ -20,7 +19,7 @@ class UpdateUserProfileRequest extends Request
             'name' => 'required',
             'phoneNumber' => 'required',
             'passwordConfirm' => 'required',
-            'address' => ['required', new ValidLocation],
+            'address' => ['required', new ValidAddress],
             'photo' => 'image | max:5242880'
         ];
     }
@@ -32,7 +31,7 @@ class UpdateUserProfileRequest extends Request
             'passwordConfirm.required' => 'Bạn cần nhập mật khẩu xác nhận',
             'phoneNumber.required' => "Bạn cần nhập số điện thoại",
             'address.required' => 'Bạn cần nhập địa chỉ',
-            'address' => (new ValidLocation)->message(),
+            'address' => (new ValidAddress)->message(),
             'photo.image' => 'Định dang ảnh không hợp lệ hoặc không được hỗ trợ',
             'photo.max' => 'Kích thước ảnh tối đa là 5MB'
         ];
