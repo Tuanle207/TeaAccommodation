@@ -2,9 +2,10 @@
 
 namespace App\Rules;
 
-use App\Facility;
-use Exception;
+use App\Parameter;
 use Illuminate\Contracts\Validation\Rule;
+
+use function GuzzleHttp\json_decode;
 
 class ValidFacility implements Rule
 {
@@ -27,19 +28,18 @@ class ValidFacility implements Rule
      */
     public function passes($attribute, $value)
     {
-        // facility names
-        $facilityNames = [];
-
         // get allowed facilities in DB and store names in $facilityNames
-        $allowedFacilities = Facility::select('id')->get();
-        foreach ($allowedFacilities as $key => $value)
-            array_push($facilityNames, $value->id);
+        $facilityNames = json_decode(Parameter::where('name', 'facilities')->first()->value);
 
         // get facilities from request
         $facilities = json_decode($value);
 
-        foreach ($facilities as $key => $value)
-            if (in_array($value, $facilityNames));
+        // check if all input facilities are correct?
+        foreach ($facilities as $key => $fac)
+            if (!in_array($fac, $facilityNames))
+                return false;
+
+        return true;
     }
 
     /**

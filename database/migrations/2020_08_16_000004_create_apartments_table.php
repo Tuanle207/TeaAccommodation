@@ -23,7 +23,7 @@ class CreateApartmentsTable extends Migration
             $table->unsignedBigInteger('rent');
             $table->float('area');
             $table->string('phoneContact');
-            $table->string('photos');
+            $table->string('photos', 300);
             $table->string('facilities');
 
             $table->float('rating')->nullable();

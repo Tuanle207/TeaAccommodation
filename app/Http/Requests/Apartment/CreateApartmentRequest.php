@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\ApartmentModificationRequest;
 use App\Rules\ValidAddress;
+use App\Rules\ValidFacility;
 
 class CreateApartmentRequest extends ApartmentModificationRequest
 {
@@ -20,7 +21,8 @@ class CreateApartmentRequest extends ApartmentModificationRequest
             'description' => 'required',
             'address' => ['required', new ValidAddress],
             'rent' => 'required|numeric|min:0',
-            'area' => 'required|numeric|min:0', 
+            'area' => 'required|numeric|min:0',
+            'facilities' => new ValidFacility,
             'phoneContact' => 'required',
             'photo_1' => 'required | image | max:5242880',
             'photo_2' => 'required | image | max:5242880',
@@ -55,7 +57,7 @@ class CreateApartmentRequest extends ApartmentModificationRequest
             'photo_3.max' => 'Kích thước ảnh tối đa là 5MB',
             'photo_4.image' => 'Định dạng ảnh không hợp lệ hoặc không được hỗ trợ',
             'photo_4.max' => 'Kích thước ảnh tối đa là 5MB',
-            'facilities' => 'Cơ sở vật chất hợp lệ'
+            'facilities' => (new ValidFacility)->message()
         ];
     }
 }

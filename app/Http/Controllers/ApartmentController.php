@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ApartmentModificationRequest;
 use App\Http\Requests\CreateApartmentRequest;
 use App\Apartment;
+use App\Http\Requests\UpdateApartmentRequest;
 use App\User;
 use App\Utils\ApartmentModificationHandler;
 
-use function GuzzleHttp\json_decode;
 
 class ApartmentController extends Controller {
 
@@ -32,6 +32,9 @@ class ApartmentController extends Controller {
         // save new apartment
         $storedApartment = ApartmentModificationHandler::saveApartment(new Apartment, $body, $filter);
 
+        // get user posted the apartment
+        $user = self::filterUser($req->input('user'));;
+
         return response()->json([
             'status' => 'success',
             'data' => $storedApartment
@@ -41,6 +44,12 @@ class ApartmentController extends Controller {
     public function getPostedApartments(ApartmentModificationRequest $req) {
 
         $apartments = Apartment::where('postedBy', $req->input('user')->id)->get();
+
+        // get user posted the apartment
+        $user = self::filterUser($req->input('user'));
+        foreach ($apartments as $index => $apartment)
+            $apartment->postedBy = $user;
+
 
         return response()->json([
             'message' => 'success',
@@ -58,7 +67,7 @@ class ApartmentController extends Controller {
         unset($address->id);
         $apartment->address = $address;
 
-        // get user postes the apartment
+        // get user posted the apartment
         $user = User::postedBy()->where('id', $apartment->postedBy)->first();
         $apartment->postedBy = $user;
 
@@ -68,13 +77,13 @@ class ApartmentController extends Controller {
         ], 200);
     }
 
-    public function updateApartment(ApartmentModificationRequest $req) {
+    public function updateApartment(UpdateApartmentRequest $req) {
 
         // get apartment from previous middleware
         $apartment = $req->input('apartment');
 
-          // field filter
-          $filter = [
+        // field filter
+        $filter = [
             'title',
             'description',
             'rent',
@@ -86,7 +95,14 @@ class ApartmentController extends Controller {
         $body = $req->all();
         
         // save new apartment
-        $storedApartment = ApartmentModificationHandler::saveApartment(new Apartment, $body, $filter);
+        $storedApartment = ApartmentModificationHandler::saveApartment($apartment, $body, $filter);
+
+
+        // get user posted the apartment
+        $user = self::filterUser($req->input('user'));
+        
+        foreach ($storedApartment as $index => $apartment)
+            $storedApartment->postedBy = $user;
 
         return response()->json([
             'status' => 'success',
@@ -114,12 +130,23 @@ class ApartmentController extends Controller {
         ], 200);
     }
     
-    public function deleteApartment(Request $req, $id) {
-        Apartment::where('id', $id)->delete();
+    public function deleteApartment(Request $req) {
+
+        $apartment = $req->input('apartment');
+        // delete appartment
+        ApartmentModificationHandler::deleteApartment($apartment);
 
         return response()->json([
             'status' => 'success',
             'data' => null
         ], 204);
+    }
+
+    private static function filterUser($srcUser) {
+        $user = (object)[];
+        $user->id = $srcUser->id;
+        $user->name = $srcUser->name;
+        $user->photo = $srcUser->photo;
+        return $user;
     }
 }

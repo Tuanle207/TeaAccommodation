@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -45,23 +46,31 @@ class AuthController extends Controller {
         if (!$user) {
             return response()->json([
                 'status' => 'fail',
-                'message' => 'This user has not been available'
+                'message' => 'Người dùng này không tồn tại'
             ], 404);
         }
 
         // Select additionally password as well
         $user->makeVisible(['password']);
 
+
         // Check password
         if (!Hash::check($password, $user->password)) {
             return response()->json([
                 'status' => 'fail',
-                'message' => 'Invalid email or password'
+                'message' => 'Email hoặc mật khẩu không hợp lệ'
             ], 401);
         }
 
         // Hide user password
         $user->makeHidden(['password']);
+        
+        // Attach address
+        if ($user->address) {
+            $address = Address::find($user->address);
+            unset($address->id);
+            $user->address = $address;
+        }
 
         // Response cookie
         return $this->responseCookie($user, 200);
@@ -73,6 +82,13 @@ class AuthController extends Controller {
 
     public function isLoggedIn(Request $req) {
         $user = $req->user;
+
+        // Attach address
+        if ($user->address) {
+            $address = Address::find($user->address);
+            unset($address->id);
+            $user->address = $address;
+        }
 
         // response json includes user's data
         return response()->json([

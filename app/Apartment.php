@@ -18,6 +18,8 @@ class Apartment extends Model
         'address',
         'rent',
         'area',
+        'photos',
+        'facilities',
         'phoneContact',
         'rating',
         'views',
@@ -29,12 +31,23 @@ class Apartment extends Model
         'views'
     ];
 
+    /**
+     * The default values of propeties
+     */
+    protected $attributes = [
+        'rating' => null,
+        'status' => 'còn phòng',
+        'active' => 1
+    ];
+
+
     public $timestamps = false;
 
     // Events
     public static function boot() {
         parent::boot();
 
+        // decoded json data
         self::retrieved(function($apartment) {
             $apartment->photos = json_decode($apartment->photos);
             $apartment->facilities = json_decode($apartment->facilities);

@@ -14,13 +14,13 @@ class ImageHandler {
      * * $type: user/apartment
      */
 
-    public static function storeImage($id, $originalImage, $type) {
+    public static function storeImage($originalImage, $type) {
 
         // 1) get file extension
         $fileExtension = $originalImage->getClientOriginalExtension();
        
         // 2) create unique filename
-        $fileName = $id . Carbon::now()->timestamp . rand(10000000, 90032000) . '.' . $fileExtension;
+        $fileName =  rand(100320000000, 230920000000) . Carbon::now()->timestamp . '.' . $fileExtension;
 
         // 3) get photo type
         $folder = null;

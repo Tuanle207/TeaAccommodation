@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+* API Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
@@ -20,123 +20,125 @@ use Illuminate\Support\Facades\Route;
 
 
 /*
-| !!! WARNING
-|
-|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTES!!!
-|        -> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
-|        * A strongly important CAUTION from Tuanle207
-| !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
+!!! WARNING
+
+        ! NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTES!!!
+        !-> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
+        * A strongly important CAUTION from Tuanle207
+!!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
 */
 
 
 /*
-     User router
+    * User router
 */
 Route::prefix('/users') -> group(function() {
 
-    // Signup route
+    // * Signup route
     Route::post('/signup', 'AuthController@signup'); // done
     
-    // Login route
+    // * Login route
     Route::post('/login', 'AuthController@login'); // done
 
-    // Logout route
+    // * Logout route
     Route::get('/logout', 'AuthController@logout'); // done
 
-    // Pass requests through authenticate middleware
+    // * Pass requests through authenticate middleware
     Route::middleware([AuthenticationMiddleware::class])->group(function() {
 
-        // Check logged in route
+        // * Check logged in route
         Route::get('/isLoggedIn', 'AuthController@isLoggedIn'); // done
 
-        // Update password
+        // * Update password
         Route::patch('/updatePassword', 'AuthController@updatePassword'); // done
 
-        // Forgot password route
+        // * Forgot password route
         Route::post('/forgotPassword', 'AuthController@forgotPassword');
 
-        // Reset password route
+        // * Reset password route
         Route::patch('/resetPassword/{token}', 'AuthController@resetPassword');
 
-        // Get user profile
+        // * Get user profile
         Route::get('/profile', 'UserController@getUserProfile'); // done
 
-        // Update user profile
+        // * Update user profile
         Route::post('/profile/edit', 'UserController@updateUserProfile');
     });
     
 });
 
 /*
-| !!! WARNING
-|
-|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTES!!!
-|        -> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
-|        * A strongly important CAUTION from Tuanle207
-| !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
+!!! WARNING
+
+        ! NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTES!!!
+        !-> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
+        * A strongly important CAUTION from Tuanle207
+!!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
 */
 
 /*
-    Apartment router
+    * Apartment router
 */
 Route::prefix('/apartments') -> group(function() {
   
-    // Get list of apartments route
+    // * Get list of apartments route
 
 
-    // Pass requests through authenticate middleware
+
+    // * Pass requests through authenticate middleware
     Route::middleware([AuthenticationMiddleware::class])->group(function() {
         
-        // Create a new apartment route
+        // * Create a new apartment route
         Route::post('/', 'ApartmentController@createApartment'); // done
 
-        // Get authticated user's posted apartments
+        // * Get authticated user's posted apartments
         Route::get('/posted', 'ApartmentController@getPostedApartments'); // done
 
-        // Pass requests through check apartment existence? middleware
+        // * Pass requests through check apartment existence? middleware
         Route::middleware([CheckApartmentExistenceMiddleware::class])->group(function() {
             
-            // Pass requests through authorization middleware
+            // * Pass requests through authorization middleware
             Route::middleware([AuthorizationMiddleware::class])->group(function() {
-                // Update apartment's detail route
-                Route::patch('/{id}', 'ApartmentController@updateApartment'); // done
 
-                // Activate availability mode route
+                // * Update apartment's detail route
+                Route::post('/{id}', 'ApartmentController@updateApartment');
+
+                // * Activate availability mode route
                 Route::patch('/{id}/activate', 'ApartmentController@activateAvailabilityMode'); // done
 
-                // Deactivate availability mode route
+                // * Deactivate availability mode route
                 Route::patch('/{id}/deactivate', 'ApartmentController@deactivateAvailabilityMode');// done
 
-                // Delete an apartment mode route
+                // * Delete an apartment mode route
                 Route::delete('/{id}', 'ApartmentController@deleteApartment'); // done
             });
            
             /*
-                Comment route
+                * Comment route
             */
             Route::prefix('/{id}/comments')->group(function() {
-                // Create a new comment about an apartment route
+                // * Create a new comment about an apartment route
                 Route::post('/', 'CommentController@createComment'); // done
 
-                // Delete a comment about an apartment route
+                // * Delete a comment about an apartment route
                 Route::delete('/{comment_id}', 'CommentController@deleteComment'); // done
 
-                // Get list of comments about an apartment route
+                // * Get list of comments about an apartment route
                 Route::get('/', 'CommentController@getComments'); // done
             });
             
             /*
-                Rating route
+                * Rating route
             */
             Route::prefix('/{id}/ratings')->group(function() {
 
-                // Get user's rating for apartment
+                // * Get user's rating for apartment
                 Route::get('/', 'RatingController@getRating');
 
-                // Ranking/ change ranking an apartment route
+                // * Ranking/ change ranking an apartment route
                 Route::post('/', 'RatingController@createOrUpdateRating');
 
-                // Cancel ranking an apartment route
+                // *Cancel ranking an apartment route
                 Route::delete('/', 'RatingController@deleteRating');
             });
 
@@ -151,12 +153,12 @@ Route::prefix('/apartments') -> group(function() {
 
 
 /*
-| !!! WARNING
-|
-|        NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTES!!!
-|        -> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
-|        * A strongly important CAUTION from Tuanle207
-| !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
+!!! WARNING
+
+        ! NOT ONCE ...... GIVE A TRY TO MODIFY THE ORDER OF ROUTES!!!
+        !-> IT WILL DESTROY APPLICATION BEHAVIOR!!!!!!!!!!!
+        * A strongly important CAUTION from Tuanle207
+!!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
 */
 
 Route::any('test', function(Request $req) {
@@ -177,7 +179,7 @@ Route::any('test', function(Request $req) {
 });
 
 
-// There is no api route left
+// * There is no api route left
 Route::any('/{any}', function($any = null) {
     return response()->json([
         'status' => 'fail',

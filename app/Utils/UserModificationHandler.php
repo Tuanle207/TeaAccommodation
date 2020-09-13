@@ -59,7 +59,7 @@ class UserModificationHanlder {
                     ImageHandler::deleteImage($user->photo);
                 }
                 // Store new photo
-                $path = ImageHandler::storeImage($user->id, $value, 'user');
+                $path = ImageHandler::storeImage($value, 'user');
 
                 // save image path in user->photo 
                 $user->photo = $path;
