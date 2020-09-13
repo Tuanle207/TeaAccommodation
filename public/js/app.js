@@ -146,6 +146,23 @@ function getMap() {
     });
     map.entities.push(pin);
     map.entities.push(circle);
+    Microsoft.Maps.loadModule('Microsoft.Maps.AutoSuggest', function () {
+      var manager = new Microsoft.Maps.AutosuggestManager({
+        map: map
+      });
+      manager.attachAutosuggest('#search_box', '#mapbox__search', selectedSuggestion);
+    });
+  });
+}
+
+function selectedSuggestion(result) {
+  //Remove previously selected suggestions from the map.
+  map.entities.clear(); //Show the suggestion as a pushpin and center map over it.
+
+  var pin = new Microsoft.Maps.Pushpin(result.location);
+  map.entities.push(pin);
+  map.setView({
+    bounds: result.bestView
   });
 }
 

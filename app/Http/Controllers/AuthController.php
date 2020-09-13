@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\SignupRequest;
-use App\Http\Requests\UpdatePasswordRequest;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,25 +11,25 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use Illuminate\Support\Facades\Response;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\SignupRequest;
+use App\Http\Requests\UpdatePasswordRequest;
+use App\Utils\UserModificationHanlder;
+
+
 class AuthController extends Controller {
 
     public function signup(SignupRequest $req) {
 
-        // Get required user's infos from request body
-        $user = [
-            'email' => $req->input('email'),
-            'password' => $req->input('password'),
-            'passwordConfirm' => $req->input('passwordConfirm'),
-            'name' => $req->input('name'),
-            'phoneNumber' => $req->input('phoneNumber')       
-        ];
-        if ($req->input('role')) {
-            $user['role'] = $req->input('role');
-        }
+        // create a new record of User
+        $user = null;
 
-        //Create new user using that infos
-        $newUser = User::create($user);   
+        // handle request body to store user's infomations
+        $body = $req->all();
+        $filter = ['email', 'password', 'passwordConfirm', 'name', 'phoneNumber', 'role'];
 
+        $newUser = UserModificationHanlder::saveUser($user, $body, $filter);
+        
         // Response cookie
         return $this->responseCookie($newUser, 201);
     }

@@ -4,12 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Location extends Model
+class Address extends Model
 {
     protected $fillable = [
         'latitude',
         'longitude',
-        'description'
+        'street',
+        'ward',
+        'district',
+        'city'
     ];
 
     public $timestamps = false;

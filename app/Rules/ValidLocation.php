@@ -28,7 +28,12 @@ class ValidLocation implements Rule
     {
         $parsedAddress = json_decode($value);
         try {
-            return $parsedAddress->latitude && $parsedAddress->longitude && $parsedAddress->description;
+            return $parsedAddress->street
+            && $parsedAddress->ward
+            && $parsedAddress->district
+            && $parsedAddress->city
+            && $parsedAddress->latitude
+            && $parsedAddress->longitude;
         } catch (Exception $e) {
             return false;
         }

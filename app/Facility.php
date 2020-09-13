@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CommentPhoto extends Model
+class Facility extends Model
 {
     protected $fillable = [
-        'source',
+        'name'
     ];
 }

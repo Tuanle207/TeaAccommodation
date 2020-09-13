@@ -41,7 +41,7 @@ class SignupRequest extends Request
             'phoneNumber.required' => "Bạn cần nhập số điện thoại",
             'role' => 'Loại người dùng không hợp lệ',
             'address' => (new ValidLocation)->message(),
-            'photo.image' => 'Định dang ảnh không hợp lệ hoặc không được hỗ trợ',
+            'photo.image' => 'Định dạng ảnh không hợp lệ hoặc không được hỗ trợ',
             'photo.max' => 'Kích thước ảnh tối đa là 5MB'
         ];
     }

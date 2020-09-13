@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -36,7 +37,13 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        parent::report($exception);
+        if (env('APP_ENV') != 'production') {
+            return parent::report($exception);
+        }
+        throw new HttpResponseException(response()->json([
+            'status' => 'error',
+            'message' => 'Internal Server Error'
+        ], 500));
     }
 
     /**

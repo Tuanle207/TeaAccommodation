@@ -11,6 +11,7 @@ class Comment extends Model
         'idApartment',
         'idUser',
         'commentedAt',
+        'photo'
     ];
 
     public $timestamps = false;

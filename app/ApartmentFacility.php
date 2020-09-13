@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ApartmentService extends Model
+class ApartmentFacility extends Model
 {
     protected $primaryKey = [
         'idApartment',

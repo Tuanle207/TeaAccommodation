@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use App\Http\Requests\UpdateUserProfileRequest;
 use App\Utils\ImageHandler;
 use App\Location;
+use App\Utils\UserModificationHanlder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 
 class UserController extends Controller
 {
+    /**
+     * * get a particular user's profile infomation
+     */
     public function getUserProfile(Request $req) {
         // get user from previous middleware
         $user = $req->user;
 
-        return $this->responseWithUser($user, Location::find($user->id));
+        return $this->responseWithUser($user, Address::find($user->id));
     }
 
     public function updateUserProfile(UpdateUserProfileRequest $req) {
@@ -26,7 +31,7 @@ class UserController extends Controller
         // get passwordConfirm from request
         $passwordConfirm = $req->get('passwordConfirm');
 
-        // check password confirm
+        // check if password confirm is correct?
         if (!Hash::check($passwordConfirm, $user->password)) {
             return response()->json([
                 'status' => 'fail',
@@ -34,63 +39,21 @@ class UserController extends Controller
             ], 401);
         };
 
-        // filter for allowed fields!
+        // filter for allowed fields (except for photo, address)!
         $filter = ['name', 'phoneNumber'];
-        $body = $req->except(['user', 'password']);
-
-        // temp object for store location option
-        $location = null;
-
-        // loop through body to handle updating
-        foreach ($body as $key => $value) {
-            // handle image file
-            if ($key == 'photo') {
-                // delete user's old photo
-                if ($user->photo != '/photo/user/default.png' && $user->photo != null) {
-                    ImageHandler::deleteImage($user->photo);
-                }
-                // Store new photo
-                $path = ImageHandler::storeImage($user->id, $value, 'user');
-                
-                if ($path == null) {
-                    return response()->json([
-                        'status' => 'fail',
-                        'message' => 'Định dạng ảnh không được hỗ trợ'
-                    ]);
-                }
-
-                // save image path in user->photo 
-                $user->photo = $path;
-
-            // handle address
-            } else if ($key == 'address') {
-                // parse json stringified
-                $parsedAddress = json_decode($value);
-
-                // user have already had some address?
-                $location = $user->address != null ? $location = Location::find($user->address) : new Location;
-                // update address info
-                $location->latitude = $parsedAddress->latitude;
-                $location->longitude = $parsedAddress->longitude;
-                $location->description = $parsedAddress->description;
-                // save
-                $location->save();
-                // user have not any address yet?
-                if ($user->address == null) $user->address = $location->id;
-            
-            // handle others
-            } else if (in_array($key, $filter)) $user[$key] = $value;
-        }
+        $body = $req->all();
 
         // save user
-        $user->save();
+        $savedUser = UserModificationHanlder::saveUser($user, $body, $filter);
 
-        return $this->responseWithUser($user, $location);
+        return $this->responseWithUser($savedUser, $savedUser->address);
     }
 
     private function responseWithUser($user, $address) {
         // format address object -- remove id and and attach address to user
-        unset($address->id);
+        if ($address->id != null) {
+            unset($address->id);
+        }
         $user->address = $address;
 
         // response json includes user's data

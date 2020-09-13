@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApartmentModificationRequest;
 use App\Http\Requests\CreateApartmentRequest;
@@ -13,18 +14,25 @@ class ApartmentController extends Controller {
 
     public function createApartment(CreateApartmentRequest $req) {
         // get required apartment's info from $req
-        $apartment = [
-            'title' => $req->input('title'),
-            'description' => $req->input('description'),
-            'rent' => $req->input('rent'),
-            'area' => $req->input('area'),
-            'postedBy' => $req->input('user')->id,
-            'phoneContact' => $req->input('phoneContact')
+
+        $apartment = new Apartment;
+
+        $filter = [
+            'title',
+            'description',
+            'rent',
+            'area',
+            'postedBy',
+            'phoneContact'
         ];
+
+        $body = $req->all();
+
+        
 
         // get and save the location
         $location = $req->input('location');
-        $storedLocation = Location::create($location);
+        $storedLocation = Address::create($location);
         $apartment['location'] = $storedLocation->id;
         
         // save new apartment
@@ -51,7 +59,7 @@ class ApartmentController extends Controller {
         $apartment = $req->input('apartment');
 
         // get address of the apartment
-        $address = Location::find($apartment->location);
+        $address = Address::find($apartment->location);
         unset($address->id);
         $apartment->location = $address;
 
@@ -78,10 +86,12 @@ class ApartmentController extends Controller {
         $fieldsFilter = ['title', 'description', 'rent', 'area', 'phoneContact'];
         
         foreach ($input as $key => $value ) {
-            if ($key == 'location') {
-                $location = $input['location'];
-                Location::where('id', $apartment->location)->update($location);
-            } else if (in_array($key, $fieldsFilter)) {
+            if ($key == 'address') {
+                $address = $input['address'];
+                Address::where('id', $apartment->location)->update($address);
+            } 
+            // update other fields
+            else if (in_array($key, $fieldsFilter)) {
                 $apartmentInfo[$key] = $value;
             }
         }

@@ -3,6 +3,8 @@
 use App\Http\Middleware\AuthenticationMiddleware;
 use App\Http\Middleware\AuthorizationMiddleware;
 use App\Http\Middleware\CheckApartmentExistenceMiddleware;
+use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -156,6 +158,23 @@ Route::prefix('/apartments') -> group(function() {
 |        * A strongly important CAUTION from Tuanle207
 | !!! WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING WARNING  
 */
+
+Route::any('test', function(Request $req) {
+
+    $obj = null;
+    $obj = new User; /* 
+    ! 'address' is a property of User model */
+
+    $address = $obj->address === null ? 9999 : 0;   
+
+    $obj->address = 9999;
+
+    return response()->json([
+        'test $obj->address === null?' => $obj->address === null,
+        'obj' => $obj
+    ], 200);
+
+});
 
 
 // There is no api route left

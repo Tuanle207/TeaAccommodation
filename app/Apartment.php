@@ -10,13 +10,14 @@ class Apartment extends Model
         'title', 
         'description',
         'postedBy',
-        'location',
+        'address',
         'rent',
         'area',
         'phoneContact',
         'rating',
         'views',
-        'status' 
+        'status',
+        'active'
     ];
 
     protected $hidden = [

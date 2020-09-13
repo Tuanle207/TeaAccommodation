@@ -40,8 +40,16 @@ class User extends Authenticatable
         'passwordChangedAt'
     ];
 
+    /**
+     * The default values of propeties
+     */
+    protected $attributes = [
+        'photo' => '/photo/user/default.png',
+        'role' => 'user'
+    ];
+
     public function address() {
-        return $this->hasOne('App\Location', 'id', 'adrress');
+        return $this->hasOne('App\Address', 'id', 'adrress');
     }
 
     public function apartments()

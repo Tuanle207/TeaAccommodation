@@ -24,7 +24,7 @@ class CreateAddressesTable extends Migration
             $table->float('latitude');
             $table->float('longitude');
         });
-        DB::update('alter table addresses AUTO_INCREMENT= 10000');
+        DB::update('alter table addresses AUTO_INCREMENT = 10000');
     }
 
     /**

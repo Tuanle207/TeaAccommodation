@@ -18,6 +18,7 @@ class CheckApartmentExistenceMiddleware
     {
         // check if this apartment exists?
         $apartment = Apartment::find($req->route('id'));
+        
         if (!$apartment) {
             return response()->json([
                 'status' => 'fail',
