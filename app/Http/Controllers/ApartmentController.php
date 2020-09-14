@@ -10,7 +10,7 @@ use App\Apartment;
 use App\Http\Requests\UpdateApartmentRequest;
 use App\User;
 use App\Utils\ApartmentModificationHandler;
-
+use App\Utils\ApiFeaturesHandler;
 
 class ApartmentController extends Controller {
 
@@ -42,18 +42,37 @@ class ApartmentController extends Controller {
     }
 
     public function getPostedApartments(ApartmentModificationRequest $req) {
+        
+        $apiHandler = new ApiFeaturesHandler(
+            Apartment::query(),
+            (object)$req->all(),
+            'apartment',
+            $req->input('user')->id
+        );
 
-        $apartments = Apartment::where('postedBy', $req->input('user')->id)->get();
-
-        // get user posted the apartment
-        $user = self::filterUser($req->input('user'));
-        foreach ($apartments as $index => $apartment)
-            $apartment->postedBy = $user;
-
+        $result = $apiHandler->useIdentifier()->sort()->limitFields()->paginate()->populate()->getWithMetadata();
 
         return response()->json([
             'message' => 'success',
-            'data' => $apartments
+            'meta' => $result->meta,
+            'data' => $result->data
+        ], 200);
+    }
+
+    public function getApartments(Request $req) {
+
+        $apiHandler = new ApiFeaturesHandler(
+            Apartment::query(),
+            (object)$req->all(),
+            'apartment'
+        );
+
+        $result = $apiHandler->filter()->sort()->limitFields()->paginate()->populate()->getWithMetadata();
+
+        return response()->json([
+            'message' => 'success',
+            'meta' => $result->meta,
+            'data' => $result->data
         ], 200);
     }
 

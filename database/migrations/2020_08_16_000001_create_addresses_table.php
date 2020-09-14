@@ -18,13 +18,17 @@ class CreateAddressesTable extends Migration
             $table->id();
             $table->string('street');
             $table->string('ward');
-            $table->string('district');
+            $table->string('district', 30);
             $table->string('city');
 
-            $table->float('latitude');
-            $table->float('longitude');
+            $table->double('latitude');
+            $table->double('longitude');
+
+            $table->string('type');
+            $table->index('district');
         });
         DB::update('alter table addresses AUTO_INCREMENT = 10000');
+
     }
 
     /**
@@ -34,6 +38,6 @@ class CreateAddressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('addresses');
     }
 }

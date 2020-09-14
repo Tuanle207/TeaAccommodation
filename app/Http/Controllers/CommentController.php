@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Http\Requests\CreateCommentRequest;
+use App\Utils\ApiFeaturesHandler;
+use App\Utils\ImageHandler;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -11,24 +13,32 @@ class CommentController extends Controller
     public function createComment(CreateCommentRequest $req, $id) {
         
         // get required infos
-        $input = $req->all();
-
-        // save image
-
+        $body = $req->all();
         $commentInfo = [
-            'text' => $input['text'],
-            'idApartment' => $id,
+            'idApartment' => (int)$id,
             'idUser' =>  $req->input('user')->id
         ];
-
+        foreach ($body as $key => $value) {
+            // store photo
+            if ($key === 'photo') {
+                $commentInfo[$key] = ImageHandler::storeImage($value, 'comment');
+            }// store text
+            else if ($key === 'text') {
+                $commentInfo[$key] = $value;
+            }
+        }
 
         // save to DB
         $comment = Comment::create($commentInfo);
 
+        // attach user info to comment
+        unset($comment->idUser);
+        $comment->user = self::filterUser($req->input('user'));
+
         return response()->json([
             'status' => 'success',
             'data' => $comment
-        ], 200);
+        ], 201);
     }
 
     public function deleteComment(Request $req, $id, $comment_id) {
@@ -49,8 +59,11 @@ class CommentController extends Controller
             ], 403);
         }
         
-
-        // delete that comment
+        // delete comment's photo
+        if ($comment->photo != null) 
+           ImageHandler::deleteImage($comment->photo);
+        
+           // delete that comment
         $comment->delete();
 
         return response()->json([
@@ -60,12 +73,38 @@ class CommentController extends Controller
     }
 
     public function getComments(Request $req, $id) {
+        // $queryStr = (object)$req->query();
+        // $currentPage = property_exists($queryStr,'page') ? (int) $queryStr->page : 1;
+        // $limit = property_exists($queryStr,'limit') ? (int) $queryStr->limit : 10;
+        // $skip = ($currentPage - 1) * $limit;
+        // $totalPages = (int) ceil(Comment::count() / $limit);
 
-        $comments = Comment::where('idApartment', $id)->with('user')->get(); // need pagination
+        // $comments = Comment::where('idApartment', $id)->orderBy('commentedAt', 'asc')
+        //     ->skip($skip)->limit($limit)->with(['user' => function($query) {
+        //     $query->select(['id', 'name', 'photo']);
+        // }])->get(); 
+       
+        // test
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $comments
-        ], 200);
+        $queryStr = (object)$req->except(['user', 'apartment']);
+        $query = Comment::query();
+        $apiHandler = new ApiFeaturesHandler($query, $queryStr, 'comment', $id);
+        $apiHandler->filter();
+
+        // test
+        // return response()->json([
+        //     'status' => 'success',
+        //     'meta' => $meta,
+        //     'data' => $comments
+        // ], 200);
     } 
+
+
+    private static function filterUser($srcUser) {
+        $user = (object)[];
+        $user->id = $srcUser->id;
+        $user->name = $srcUser->name;
+        $user->photo = $srcUser->photo;
+        return $user;
+    }
 }

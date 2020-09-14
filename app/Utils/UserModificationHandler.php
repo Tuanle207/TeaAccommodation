@@ -44,6 +44,8 @@ class UserModificationHanlder {
                     if (in_array($key, ['street', 'ward', 'district', 'city', 'latitude', 'longitude']))
                         $address[$key] = $value;
                 
+                // set adddress type is user
+                $address->type = 'user';
 
                 // save address in DB
                 $address->save();

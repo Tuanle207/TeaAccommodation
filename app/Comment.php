@@ -17,6 +17,6 @@ class Comment extends Model
     public $timestamps = false;
 
     public function user() {
-        return $this->hasOne('App\User', 'id', 'idUser');
+        return $this->hasOne('App\User', 'id', 'commentedBy');
     }
 }

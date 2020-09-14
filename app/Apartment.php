@@ -28,7 +28,8 @@ class Apartment extends Model
     ];
 
     protected $hidden = [
-        'views'
+        'views',
+        'visible'
     ];
 
     /**
@@ -43,14 +44,23 @@ class Apartment extends Model
 
     public $timestamps = false;
 
+    public function user() {
+        return $this->hasOne('App\User', 'id', 'postedBy');
+    }
+
     // Events
     public static function boot() {
         parent::boot();
-
+       
         // decoded json data
         self::retrieved(function($apartment) {
-            $apartment->photos = json_decode($apartment->photos);
-            $apartment->facilities = json_decode($apartment->facilities);
+
+            if ($apartment->photos !== null)
+                $apartment->photos = json_decode($apartment->photos);
+
+            if ($apartment->facilities !== null)
+                $apartment->facilities = json_decode($apartment->facilities, true, 512, JSON_OBJECT_AS_ARRAY);
+           
         });
     }
     

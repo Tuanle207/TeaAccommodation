@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(FacilitySeeder::class);
+        for ($i = 0; $i < 500; ++$i)
+            $this->call(AddressSeeder::class);
     }
 }

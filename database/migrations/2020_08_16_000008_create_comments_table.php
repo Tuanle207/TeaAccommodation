@@ -19,12 +19,14 @@ class CreateCommentsTable extends Migration
             $table->id();
             $table->string('text');
             $table->unsignedBigInteger('idApartment');
-            $table->unsignedBigInteger('idUser');
+            $table->unsignedBigInteger('commentedBy');
             $table->string('photo')->nullable();
             $table->dateTime('commentedAt')->default(Carbon::now());
 
+            $table->index('idApartment');
+
             $table->foreign('idApartment')->references('id')->on('apartments');
-            $table->foreign('idUser')->references('id')->on('users');
+            $table->foreign('commentedBy')->references('id')->on('users');
         });
         DB::update('alter table comments AUTO_INCREMENT = 10000');
     }

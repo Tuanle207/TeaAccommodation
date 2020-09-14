@@ -82,7 +82,7 @@ Route::prefix('/users') -> group(function() {
 Route::prefix('/apartments') -> group(function() {
   
     // * Get list of apartments route
-
+    Route::get('/', 'ApartmentController@getApartments');
 
 
     // * Pass requests through authenticate middleware
@@ -94,9 +94,11 @@ Route::prefix('/apartments') -> group(function() {
         // * Get authticated user's posted apartments
         Route::get('/posted', 'ApartmentController@getPostedApartments'); // done
 
+        
         // * Pass requests through check apartment existence? middleware
         Route::middleware([CheckApartmentExistenceMiddleware::class])->group(function() {
-            
+
+        
             // * Pass requests through authorization middleware
             Route::middleware([AuthorizationMiddleware::class])->group(function() {
 
@@ -116,6 +118,10 @@ Route::prefix('/apartments') -> group(function() {
             /*
                 * Comment route
             */
+        
+            // * Get list of comments about an apartment route
+            Route::get('/{id}/comments', 'CommentController@getComments'); // done
+            
             Route::prefix('/{id}/comments')->group(function() {
                 // * Create a new comment about an apartment route
                 Route::post('/', 'CommentController@createComment'); // done
@@ -123,8 +129,6 @@ Route::prefix('/apartments') -> group(function() {
                 // * Delete a comment about an apartment route
                 Route::delete('/{comment_id}', 'CommentController@deleteComment'); // done
 
-                // * Get list of comments about an apartment route
-                Route::get('/', 'CommentController@getComments'); // done
             });
             
             /*
@@ -173,7 +177,8 @@ Route::any('test', function(Request $req) {
 
     return response()->json([
         'test $obj->address === null?' => $obj->address === null,
-        'obj' => $obj
+        'obj' => $obj,
+        'test' => addslashes(3432)
     ], 200);
 
 });

@@ -47,15 +47,6 @@ class User extends Authenticatable
         'photo' => '/photo/user/default.png',
         'role' => 'user'
     ];
-
-    public function address() {
-        return $this->hasOne('App\Address', 'id', 'adrress');
-    }
-
-    public function apartments()
-    {
-        return $this->hasMany('App\Apartment', 'id');
-    }
    
     // Events
     public static function boot() {

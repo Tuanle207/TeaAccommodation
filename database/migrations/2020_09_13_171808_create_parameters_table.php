@@ -25,10 +25,10 @@ class CreateParametersTable extends Migration
         DB::update('alter table comments AUTO_INCREMENT = 10000');
 
         DB::insert('insert into parameters (name, value) values (?, ?)', 
-            ['cities', json_encode(['Hồ Chí Minh'])]);
+            ['cities', json_encode(['Hồ Chí Minh'], JSON_UNESCAPED_UNICODE)]);
 
         DB::insert('insert into parameters (name, value) values (?, ?)', 
-            ['facilities', json_encode(['wifi', 'tủ lạnh', 'máy giặt'])]);
+            ['facilities', json_encode(['wifi', 'tủ lạnh', 'máy giặt'], JSON_UNESCAPED_UNICODE)]);
     }
 
     /**

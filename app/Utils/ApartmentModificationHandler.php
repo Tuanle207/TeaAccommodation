@@ -32,7 +32,9 @@ class ApartmentModificationHandler {
                 foreach ($parsedAddress as $key => $value)
                     if (in_array($key, ['street', 'ward', 'district', 'city', 'latitude', 'longitude']))
                         $address[$key] = $value;
-                
+                // set adddress type is apartment
+                $address->type = 'apartment';
+
                 // save address in DB
                 $address->save();
 
@@ -66,9 +68,9 @@ class ApartmentModificationHandler {
         }
 
         // Save photos' info
-        $apartment->photos = json_encode($photos);
+        $apartment->photos = json_encode($photos, JSON_UNESCAPED_UNICODE);
         // Save facilities list
-        $apartment->facilities = json_encode($facilities);
+        $apartment->facilities = json_encode($facilities, JSON_UNESCAPED_UNICODE);
 
         // Create or save apartment using that infos
         $apartment->save();

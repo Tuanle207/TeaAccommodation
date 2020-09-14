@@ -24,7 +24,7 @@ class ImageHandler {
 
         // 3) get photo type
         $folder = null;
-        if (in_array($type, ['user', 'apartment'])) {
+        if (in_array($type, ['user', 'apartment', 'comment'])) {
             $folder = '/photo/' . $type;
         }
 
