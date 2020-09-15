@@ -16,14 +16,14 @@ class CreateRatingsTable extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->unsignedBigInteger('idApartment');
-            $table->unsignedBigInteger('commentedBy');
+            $table->unsignedBigInteger('ratedBy');
             $table->integer('rating');
             
             $table->index('idApartment');
 
-            $table->primary(['idApartment', 'commentedBy' ]);
+            $table->primary(['idApartment', 'ratedBy' ]);
             $table->foreign('idApartment')->references('id')->on('apartments');
-            $table->foreign('commentedBy')->references('id')->on('users');
+            $table->foreign('ratedBy')->references('id')->on('users');
         });
         DB::update('alter table ratings AUTO_INCREMENT = 10000');
     }

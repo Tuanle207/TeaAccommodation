@@ -39,7 +39,7 @@ class ApiFeaturesHandler {
             $this->query = $this->query->where('postedBy', $this->id)->where('visible', 1);
         } 
         else if ($this->modelType === 'comment' && $this->id != null) {
-            $this->query = $this->query->where('commentedBy', $this->id);
+            $this->query = $this->query->where('idApartment', $this->id);
         }
 
         return $this;
@@ -228,7 +228,7 @@ class ApiFeaturesHandler {
         }//! for comment
         else if ($this->modelType === 'comment') {
             //* default fields
-            $fields = ['id', 'text', 'user', 'commentedAt', 'photo'];
+            $fields = ['id', 'text', 'commentedBy', 'commentedAt', 'photo'];
         }
 
         $this->query = $this->query->select($fields);

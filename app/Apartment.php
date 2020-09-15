@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
@@ -61,6 +62,10 @@ class Apartment extends Model
             if ($apartment->facilities !== null)
                 $apartment->facilities = json_decode($apartment->facilities, true, 512, JSON_OBJECT_AS_ARRAY);
            
+        });
+
+        self::saving(function($apartment) {
+            $apartment->lastUpdatedAt = Carbon::now();
         });
     }
     

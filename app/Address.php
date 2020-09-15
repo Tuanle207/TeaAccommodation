@@ -15,5 +15,9 @@ class Address extends Model
         'city'
     ];
 
+    protected $hidden = [
+        'type'
+    ];
+
     public $timestamps = false;
 }

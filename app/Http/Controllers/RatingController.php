@@ -12,7 +12,7 @@ class RatingController extends Controller
     
     public function getRating(Request $req, $id) {
         // get rating based on idApartment and idUser
-        $rating = Rating::where('idApartment', $id)->where('idUser', $req->input('user')->id)->first();
+        $rating = Rating::where('idApartment', $id)->where('ratedBy', $req->input('user')->id)->first();
 
         return response()->json([
             'status' => 'success',
@@ -23,14 +23,14 @@ class RatingController extends Controller
     public function createOrUpdateRating(RatingRequest $req, $id) {
         
         // create or update if existed rating
-        $rating = Rating::where('idApartment', $id)->where('idUser', $req->input('user')->id)->first();
+        $rating = Rating::where('idApartment', $id)->where('ratedBy', $req->input('user')->id)->first();
         if ($rating) {
             $rating->rating = $req->input('rating');
             $rating->save();
         } else {
             $rating = Rating::create([
                 'idApartment' =>  $id,
-                'idUser' => $req->input('user')->id,
+                'ratedBy' => $req->input('user')->id,
                 'rating' => $req->input('rating')
             ]);
         }
@@ -52,7 +52,7 @@ class RatingController extends Controller
 
     public function deleteRating(Request $req, $id) {
         // delete rating
-        Rating::where('idApartment', $id)->where('idUser', $req->input('user')->id)->delete();
+        Rating::where('idApartment', $id)->where('ratedBy', $req->input('user')->id)->delete();
 
         // recalculate the average ratings of the apartment
         $aparment = $req->input('apartment');

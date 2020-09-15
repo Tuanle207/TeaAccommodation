@@ -13,7 +13,7 @@ TeaAccommodation is written in PHP, Laravel, HTML, CSS, Sass, Javascript...
 
 - Application server is written is PHP with Laravel framework.
 - Website frontend is written in pure HTML, CSS, SASS, Javascript
-- Mobile frontend is written with React-native framework. You can access its source code in another repository <a href="https://github.com/lexuantunght/ApartmentApp">here</a>
+- Mobile frontend is written with React-native framework. You can access its source code in another repository <a href="https://github.com/Tuanle207/TeaAccommodationAndroid">here</a>
 
 ## Technical Concepts
 

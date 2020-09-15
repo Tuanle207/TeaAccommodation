@@ -9,7 +9,7 @@ class Comment extends Model
     protected $fillable = [
         'text',
         'idApartment',
-        'idUser',
+        'commentedBy',
         'commentedAt',
         'photo'
     ];

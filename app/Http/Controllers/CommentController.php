@@ -14,9 +14,10 @@ class CommentController extends Controller
         
         // get required infos
         $body = $req->all();
+
         $commentInfo = [
             'idApartment' => (int)$id,
-            'idUser' =>  $req->input('user')->id
+            'commentedBy' =>  $req->input('user')->id
         ];
         foreach ($body as $key => $value) {
             // store photo
@@ -32,8 +33,8 @@ class CommentController extends Controller
         $comment = Comment::create($commentInfo);
 
         // attach user info to comment
-        unset($comment->idUser);
-        $comment->user = self::filterUser($req->input('user'));
+        unset($comment->commentedBy);
+        $comment->commentedBy = $this->filterUser($req->input('user'));
 
         return response()->json([
             'status' => 'success',
@@ -72,35 +73,22 @@ class CommentController extends Controller
         ], 204);
     }
 
-    public function getComments(Request $req, $id) {
-        // $queryStr = (object)$req->query();
-        // $currentPage = property_exists($queryStr,'page') ? (int) $queryStr->page : 1;
-        // $limit = property_exists($queryStr,'limit') ? (int) $queryStr->limit : 10;
-        // $skip = ($currentPage - 1) * $limit;
-        // $totalPages = (int) ceil(Comment::count() / $limit);
 
-        // $comments = Comment::where('idApartment', $id)->orderBy('commentedAt', 'asc')
-        //     ->skip($skip)->limit($limit)->with(['user' => function($query) {
-        //     $query->select(['id', 'name', 'photo']);
-        // }])->get(); 
-       
-        // test
+    public function getComments(Request $req, $id) {
 
         $queryStr = (object)$req->except(['user', 'apartment']);
-        $query = Comment::query();
-        $apiHandler = new ApiFeaturesHandler($query, $queryStr, 'comment', $id);
-        $apiHandler->filter();
+        $apiHandler = new ApiFeaturesHandler(Comment::query(), $queryStr, 'comment', $id);
+        $result = $apiHandler->useIdentifier()->sort()->limitFields()->paginate()->populate()->getWithMetadata();
 
-        // test
-        // return response()->json([
-        //     'status' => 'success',
-        //     'meta' => $meta,
-        //     'data' => $comments
-        // ], 200);
+        return response()->json([
+            'status' => 'success',
+            'meta' => $result->meta,
+            'data' => $result->data
+        ], 200);
     } 
 
 
-    private static function filterUser($srcUser) {
+    private function filterUser($srcUser) {
         $user = (object)[];
         $user->id = $srcUser->id;
         $user->name = $srcUser->name;

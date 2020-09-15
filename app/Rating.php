@@ -13,13 +13,13 @@ class Rating extends Model
 
     protected $fillable = [
         'idApartment',
-        'idUser',
+        'ratedBy',
         'rating'
     ];
 
     protected $primaryKey = [
         'idApartment',
-        'idUser'
+        'ratedBy'
     ];
 
     // Override some method for composition primary key
