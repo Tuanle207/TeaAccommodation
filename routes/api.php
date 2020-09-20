@@ -32,39 +32,35 @@ use Illuminate\Support\Facades\Route;
 /*
     * User router
 */
-Route::prefix('/users') -> group(function() {
-
-    // * Signup route
-    Route::post('/signup', 'AuthController@signup'); // done
+// * Signup route
+Route::post('/signup', 'AuthController@signup'); // done
     
-    // * Login route
-    Route::post('/login', 'AuthController@login'); // done
+// * Login route
+Route::post('/login', 'AuthController@login'); // done
 
-    // * Logout route
-    Route::get('/logout', 'AuthController@logout'); // done
+// * Logout route
+Route::get('/logout', 'AuthController@logout'); // done
 
-    // * Pass requests through authenticate middleware
-    Route::middleware([AuthenticationMiddleware::class])->group(function() {
+// * Pass requests through authenticate middleware
+Route::middleware([AuthenticationMiddleware::class])->group(function() {
 
-        // * Check logged in route
-        Route::get('/isLoggedIn', 'AuthController@isLoggedIn'); // done
+    // * Check logged in route
+    Route::get('/isLoggedIn', 'AuthController@isLoggedIn'); // done
 
-        // * Update password
-        Route::patch('/updatePassword', 'AuthController@updatePassword'); // done
+    // * Update password
+    Route::patch('/updatePassword', 'AuthController@updatePassword'); // done
 
-        // * Forgot password route
-        Route::post('/forgotPassword', 'AuthController@forgotPassword');
+    // * Forgot password route
+    Route::post('/forgotPassword', 'AuthController@forgotPassword');
 
-        // * Reset password route
-        Route::patch('/resetPassword/{token}', 'AuthController@resetPassword');
+    // * Reset password route
+    Route::patch('/resetPassword/{token}', 'AuthController@resetPassword');
 
-        // * Get user profile
-        Route::get('/profile', 'UserController@getUserProfile'); // done
+    // * Get user profile
+    Route::get('/profile', 'UserController@getUserProfile'); // done
 
-        // * Update user profile
-        Route::post('/profile/edit', 'UserController@updateUserProfile');
-    });
-    
+    // * Update user profile
+    Route::post('/profile/edit', 'UserController@updateUserProfile');
 });
 
 /*
