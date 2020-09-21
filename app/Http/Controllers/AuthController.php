@@ -41,21 +41,9 @@ class AuthController extends Controller {
 
         // Get user information includes password.
         $user = User::fields()->where('email', $email)->addSelect('password')->first();
-        
-        // Check user still exists?
-        if (!$user) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Người dùng này không tồn tại'
-            ], 404);
-        }
 
-        // Select additionally password as well
-        $user->makeVisible(['password']);
-
-
-        // Check password
-        if (!Hash::check($password, $user->password)) {
+        // Check user still exists and password is correct?
+        if (!$user || !Hash::check($password, $user->password)) {
             return response()->json([
                 'status' => 'fail',
                 'message' => 'Email hoặc mật khẩu không hợp lệ'

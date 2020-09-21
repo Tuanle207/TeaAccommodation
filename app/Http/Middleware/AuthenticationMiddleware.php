@@ -25,7 +25,7 @@ class AuthenticationMiddleware
             // User have not logged in yet
             return response()->json([
                 'status' => 'fail',
-                'message' => 'You haven\'t logged in yet! Please log in to continue'
+                'message' => 'Bạn chưa đăng nhập! Hãy đăng nhập để tiếp tục.'//'You haven\'t logged in yet! Please log in to continue'
             ]);
         }
         // Get token from cookie
@@ -39,12 +39,12 @@ class AuthenticationMiddleware
         } catch (TokenExpiredException $e) { 
             return response()->json([
                 'status' => 'fail',
-                'message' => 'The token is invalid or has expired!'
+                'message' => 'Bạn chưa đăng nhập! Hãy đăng nhập để tiếp tục.'//'The token is invalid or has expired!'
             ], 401);
         } catch (TokenInvalidException $e) {
             return response()->json([
                 'status' => 'fail',
-                'message' => 'The token is invalid or has expired!'
+                'message' => 'Bạn chưa đăng nhập! Hãy đăng nhập để tiếp tục.' //The token is invalid or has expired!
             ], 401);
         }
 
@@ -58,7 +58,7 @@ class AuthenticationMiddleware
             return response()->json([
                 'status' => 'fail',
                 'message' => 'Bạn đã thay đổi mật khẩu gần đây. Vui lòng đăng nhập lại với mật khẩu mới!'
-            ]);
+            ], 401);
         }
 
 
