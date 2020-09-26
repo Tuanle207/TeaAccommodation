@@ -49,6 +49,10 @@ class Apartment extends Model
         return $this->hasOne('App\User', 'id', 'postedBy');
     }
 
+    public function address() {
+        return $this->hasOne('App\Address', 'id', 'address');
+    }
+
     // Events
     public static function boot() {
         parent::boot();

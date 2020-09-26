@@ -209,22 +209,23 @@ class ApiFeaturesHandler {
         $fields = property_exists($this->queryString, 'fields') 
                 ? explode(',', $this->queryString->fields) 
                 : [];
+
         //! for apartment
         if ($this->modelType === 'apartment') {
             //* default fields
             $defaultFields = ['id', 'title', 'description', 'photos', 'address', 'rent', 'rating'];
 
+            /*
             //* allowed fields
             $allowedFields = ['postedBy', 'postedAt','lastUpdatedAt', 'area', 
                                 'phoneContact', 'facilities',...$defaultFields];
-
-            
             // * remove not allowed fields
             foreach ($fields as $index => $value)
                 if (!in_array($value, $allowedFields))
-                    unset($fields[$index]);
-    
+                    array_splice($fields, $index, 1);
             if (count($fields) === 0) $fields = $defaultFields;
+            */
+            $fields = $defaultFields;
         }//! for comment
         else if ($this->modelType === 'comment') {
             //* default fields
@@ -232,7 +233,6 @@ class ApiFeaturesHandler {
         }
 
         $this->query = $this->query->select($fields);
-       
         return $this;
     }
 
@@ -266,6 +266,7 @@ class ApiFeaturesHandler {
             }]);
         }  
         else if ($this->modelType === 'apartment') {
+            $this->query = $this->query->with(['address']);
             if (property_exists($this->queryString, 'fields') 
                 && str_contains($this->queryString->fields, 'postedBy')) {
                 $this->query = $this->query->with(['user' => function($query) {
@@ -292,10 +293,10 @@ class ApiFeaturesHandler {
         if ($this->meta == null) {
             return null;
         }
-
+        
         //* execute query to get data
         $data = $this->query->get();
-
+   
         if($this->meta->currentPage < 1) 
             $this->meta->currentPage = 1;
         
@@ -307,7 +308,11 @@ class ApiFeaturesHandler {
                 property_exists($this->queryString, 'limit') ? (int)$this->queryString->limit : 15
             ) 
             : count($data);
-
+            
+        // return (object)[
+        //     'meta' =>' $this->meta',
+        //     'data' => '$data'
+        // ];
         return (object)[
             'meta' => $this->meta,
             'data' => $data
