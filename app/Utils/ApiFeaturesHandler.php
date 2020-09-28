@@ -107,7 +107,8 @@ class ApiFeaturesHandler {
             if (property_exists($queryStr, 'facilities')) {
                 $facilities = explode(',', $queryStr->facilities);
                 foreach ($facilities as $k => $fac)
-                    $this->query = $this->query->where('facilities', 'like', '%'.json_encode($fac, JSON_UNESCAPED_UNICODE).'%');
+                    $this->query = $this->query
+                        ->where('facilities', 'like', '%'.json_encode($fac, JSON_UNESCAPED_UNICODE).'%');
             }
 
 
@@ -213,7 +214,7 @@ class ApiFeaturesHandler {
         //! for apartment
         if ($this->modelType === 'apartment') {
             //* default fields
-            $defaultFields = ['id', 'title', 'description', 'photos', 'address', 'rent', 'area', 'rating'];
+            $defaultFields = ['id', 'title', 'description', 'photos', 'address', 'rent', 'area', 'rating', 'postedAt'];
 
             /*
             //* allowed fields

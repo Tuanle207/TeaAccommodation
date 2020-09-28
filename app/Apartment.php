@@ -39,7 +39,7 @@ class Apartment extends Model
     protected $attributes = [
         'rating' => null,
         'status' => 'còn phòng',
-        'active' => 1
+        'visible' => 1
     ];
 
 
