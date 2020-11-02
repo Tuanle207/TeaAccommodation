@@ -84,9 +84,8 @@ class ApiFeaturesHandler {
             if (property_exists($queryStr, 'district')) {
                 $districts = explode(',', $queryStr->district);
                 // join with address table
-                $this->query->join('addresses', 'apartments.address', '=', 'addresses.id');
+                $this->query = $this->query->join('addresses', 'apartments.address', '=', 'addresses.id');
                 $this->query = $this->query->whereIn('district', $districts);
-                $this->query = $this->query->select('apartments.*'); 
             }  
 
                 // * case 2: is there a geo points
@@ -214,7 +213,7 @@ class ApiFeaturesHandler {
         //! for apartment
         if ($this->modelType === 'apartment') {
             //* default fields
-            $defaultFields = ['id', 'title', 'description', 'photos', 'address', 'rent', 'area', 'rating', 'postedAt'];
+            $defaultFields = ['apartments.id', 'title', 'description', 'photos', 'address', 'rent', 'area', 'rating', 'postedAt', 'district'];
 
             /*
             //* allowed fields
