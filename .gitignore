@@ -6,6 +6,7 @@
 /public/photo/comment/*
 /storage/*.key
 /vendor
+/.vscode
 .env.backup
 .phpunit.result.cache
 Homestead.json

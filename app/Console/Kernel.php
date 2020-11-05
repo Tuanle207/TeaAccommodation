@@ -38,4 +38,8 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+
+    protected $middlware = [
+        \App\Http\Middleware\AllowCORSMiddleware::class,
+    ];
 }

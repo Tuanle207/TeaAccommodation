@@ -94,10 +94,11 @@ class ApiFeaturesHandler {
                 $longitude = (double) $queryStr->longitude;
                 $radius = (int) property_exists($queryStr, 'radius') ? $queryStr->radius : 15;
                 
+                $this->query = $this->query->join('addresses', 'apartments.address', '=', 'addresses.id');
                 $this->query = $this->query->whereRaw("
                     ST_Distance_Sphere (
                         point(longitude, latitude),
-                        point(?,?)
+                        point(?, ?)
                     ) * 0.001 < ?
                 ", [$longitude, $latitude, $radius]);
             }
@@ -213,7 +214,7 @@ class ApiFeaturesHandler {
         //! for apartment
         if ($this->modelType === 'apartment') {
             //* default fields
-            $defaultFields = ['apartments.id', 'title', 'description', 'photos', 'address', 'rent', 'area', 'rating', 'postedAt', 'district'];
+            $defaultFields = ['apartments.id', 'title', 'description', 'photos', 'address', 'rent', 'area', 'rating', 'postedAt'];
 
             /*
             //* allowed fields

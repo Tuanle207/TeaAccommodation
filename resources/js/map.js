@@ -1,3 +1,4 @@
+import axios from 'axios';
 
 function getCircle(loc, radius) {
     var R = 6371; // earth's mean radius in km
@@ -16,6 +17,22 @@ function getCircle(loc, radius) {
     return locs;
 }
 
+function getAddressesPoints(currentCoords, radius) {
+    const {latitude, longitude} = currentCoords;
+    axios
+        .get(`localhost:8000/api/apartments/latitude=${latitude}&longitude=${longitude}&radius=${radius}`)
+        .then(res => {
+            const data = res.data.data;
+            const dataForReturn = data.map(el => {
+                return {
+                    latitude: el.address.latitude,
+                    longitude: el.address.longitude
+                };
+            });
+            return dataForReturn;
+        });
+}
+
 //let map = {};
 
 export default function getMap() {
@@ -32,7 +49,17 @@ export default function getMap() {
             color: 'green'
         });
 
-        const circleShape = getCircle({latitude, longitude}, 10);
+        const points = getAddressesPoints(location.coords, 15);
+        console.log(points);
+        points.forEach(el => {
+            const pin = new Microsoft.Maps.Pushpin(center, {
+                icon: '/photo/pin.svg',
+                anchor: new Microsoft.Maps.Point(el.latitude, el.longitude)
+            });
+            map.entities.push(pin);
+        });
+
+        const circleShape = getCircle({latitude, longitude}, 15);
         const circle = new Microsoft.Maps.Polygon(circleShape, {
             fillColor: 'rgba(0, 255, 0, 0.5)',
             strokeColor: '#eb8f8f',
