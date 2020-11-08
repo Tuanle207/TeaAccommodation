@@ -82,7 +82,7 @@ class ApartmentController extends Controller {
         $apartment = $req->input('apartment');
 
         // get address of the apartment
-        $address = Address::find($apartment->location);
+        $address = Address::find($apartment->address);
         unset($address->id);
         $apartment->address = $address;
 

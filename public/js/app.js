@@ -2134,9 +2134,9 @@ function getCircle(loc, radius) {
 
   var locs = [];
 
-  for (x = 0; x <= 360; x++) {
+  for (var x = 0; x <= 360; x++) {
     var p = {};
-    brng = x * Math.PI / 180; //rad
+    var brng = x * Math.PI / 180; //rad
 
     p.latitude = Math.asin(Math.sin(lat) * Math.cos(d) + Math.cos(lat) * Math.sin(d) * Math.cos(brng));
     p.longitude = (lon + Math.atan2(Math.sin(brng) * Math.sin(d) * Math.cos(lat), Math.cos(d) - Math.sin(lat) * Math.sin(p.latitude))) * 180 / Math.PI;
@@ -2177,16 +2177,16 @@ function getMap() {
       title: 'Vị trí của bạn',
       subTitle: 'Vị trí hiện tại của bạn',
       color: 'green'
-    });
-    var points = getAddressesPoints(location.coords, 15);
-    console.log(points);
-    points.forEach(function (el) {
-      var pin = new Microsoft.Maps.Pushpin(center, {
-        icon: '/photo/pin.svg',
-        anchor: new Microsoft.Maps.Point(el.latitude, el.longitude)
-      });
-      map.entities.push(pin);
-    });
+    }); // const points = getAddressesPoints(location.coords, 15);
+    // console.log(points);
+    // points.forEach(el => {
+    //     const pin = new Microsoft.Maps.Pushpin(center, {
+    //         icon: '/photo/pin.svg',
+    //         anchor: new Microsoft.Maps.Point(el.latitude, el.longitude)
+    //     });
+    //     map.entities.push(pin);
+    // });
+
     var circleShape = getCircle({
       latitude: latitude,
       longitude: longitude
