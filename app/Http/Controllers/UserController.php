@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Address;
-use App\Http\Requests\UpdateUserProfileRequest;
+use App\Http\Requests\Users\pdateUserProfileRequest;
 use App\Utils\ImageHandler;
 use App\Location;
 use App\Utils\UserModificationHanlder;

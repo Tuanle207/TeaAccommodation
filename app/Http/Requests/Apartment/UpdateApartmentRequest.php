@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Apartments;
 
 use App\Rules\ValidAddress;
 use App\Rules\ValidFacility;

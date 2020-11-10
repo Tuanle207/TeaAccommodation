@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use Illuminate\Http\Request;
-use App\Http\Requests\ApartmentModificationRequest;
-use App\Http\Requests\CreateApartmentRequest;
+use App\Http\Requests\Apartments\ApartmentModificationRequest;
+use App\Http\Requests\Apartments\CreateApartmentRequest;
 use App\Apartment;
-use App\Http\Requests\UpdateApartmentRequest;
+use App\Http\Requests\Apartments\UpdateApartmentRequest;
 use App\User;
 use App\Utils\ApartmentModificationHandler;
 use App\Utils\ApiFeaturesHandler;

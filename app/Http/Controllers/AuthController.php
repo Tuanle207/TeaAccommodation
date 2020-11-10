@@ -12,9 +12,9 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use Illuminate\Support\Facades\Response;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\SignupRequest;
-use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Requests\Users\LoginRequest;
+use App\Http\Requests\Users\SignupRequest;
+use App\Http\Requests\Users\UpdatePasswordRequest;
 use App\Utils\UserModificationHanlder;
 
 
