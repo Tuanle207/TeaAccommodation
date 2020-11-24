@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Apartments;
+namespace App\Http\Requests\Apartment;
 
-use App\Http\Requests\ApartmentModificationRequest;
+use App\Http\Requests\Apartment\ApartmentModificationRequest;
 use App\Rules\ValidAddress;
 use App\Rules\ValidFacility;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Users;
+namespace App\Http\Requests\User;
 
 use App\Http\Requests\Request;
 use App\Rules\ValidAddress;

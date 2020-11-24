@@ -12,10 +12,10 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Facades\JWTFactory;
 use Illuminate\Support\Facades\Response;
 
-use App\Http\Requests\Users\LoginRequest;
-use App\Http\Requests\Users\SignupRequest;
-use App\Http\Requests\Users\UpdatePasswordRequest;
-use App\Utils\UserModificationHanlder;
+use App\Http\Requests\User\LoginRequest;
+use App\Http\Requests\User\SignupRequest;
+use App\Http\Requests\User\UpdatePasswordRequest;
+use App\Http\Utils\UserModificationHanlder;
 
 
 class AuthController extends Controller {

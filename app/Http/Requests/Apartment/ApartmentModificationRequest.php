@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Apartments;
+namespace App\Http\Requests\Apartment;
 
 use App\Http\Requests\Request;
 use Illuminate\Http\Exceptions\HttpResponseException;

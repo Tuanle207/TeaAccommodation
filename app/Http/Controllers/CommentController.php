@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
-use App\Http\Requests\Comments\CreateCommentRequest;
+use App\Http\Requests\Others\CreateCommentRequest;
 use App\Utils\ApiFeaturesHandler;
 use App\Utils\ImageHandler;
 use Illuminate\Http\Request;

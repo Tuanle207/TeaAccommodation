@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App\Http\Utils;
 
 use App\Address;
 use App\Apartment;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App\Http\Utils;
 
 class StringHandler {
     public static function vn_to_str ($str){

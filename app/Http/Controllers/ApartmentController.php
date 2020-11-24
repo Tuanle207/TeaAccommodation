@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use Illuminate\Http\Request;
-use App\Http\Requests\Apartments\ApartmentModificationRequest;
-use App\Http\Requests\Apartments\CreateApartmentRequest;
+use App\Http\Requests\Apartment\ApartmentModificationRequest;
+use App\Http\Requests\Apartment\CreateApartmentRequest;
 use App\Apartment;
-use App\Http\Requests\Apartments\UpdateApartmentRequest;
+use App\Http\Requests\Apartment\UpdateApartmentRequest;
 use App\User;
-use App\Utils\ApartmentModificationHandler;
-use App\Utils\ApiFeaturesHandler;
+use App\Http\Utils\ApartmentModificationHandler;
+use App\Http\Utils\ApiFeaturesHandler;
 
 class ApartmentController extends Controller {
 

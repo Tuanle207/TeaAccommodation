@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Address;
-use App\Http\Requests\Users\pdateUserProfileRequest;
-use App\Utils\ImageHandler;
-use App\Location;
-use App\Utils\UserModificationHanlder;
+use App\Http\Requests\User\UpdateUserProfileRequest;
+use App\Http\Utils\UserModificationHanlder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
