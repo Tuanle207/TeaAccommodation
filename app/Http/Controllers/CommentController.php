@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Http\Requests\Others\CreateCommentRequest;
-use App\Utils\ApiFeaturesHandler;
-use App\Utils\ImageHandler;
+use App\Http\Utils\ApiFeaturesHandler;
+use App\Http\Utils\ImageHandler;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Apartment;
+
 use App\Http\Requests\Others\RatingRequest;
 use App\Rating;
 use Illuminate\Http\Request;
