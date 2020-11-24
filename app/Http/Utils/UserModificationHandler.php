@@ -6,7 +6,7 @@ use App\Address;
 use App\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UserModificationHanlder {
+class UserModificationHandler {
     /**
      * update or help with create and save new user
      */
