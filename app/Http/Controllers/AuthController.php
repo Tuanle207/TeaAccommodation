@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Response;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\SignupRequest;
 use App\Http\Requests\User\UpdatePasswordRequest;
-use App\Http\Utils\UserModificationHanlder;
+use App\Http\Utils\UserModificationHandler;
 
 
 class AuthController extends Controller {
@@ -29,7 +29,7 @@ class AuthController extends Controller {
         $body = $req->all();
         $filter = ['email', 'password', 'passwordConfirm', 'name', 'phoneNumber', 'role'];
 
-        $newUser = UserModificationHanlder::saveUser($user, $body, $filter);
+        $newUser = UserModificationHandler::saveUser($user, $body, $filter);
         
         // Response cookie
         return $this->responseCookie($newUser, 201);
