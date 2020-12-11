@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\Others\RatingRequest;
+use App\Http\Requests\Other\RatingRequest;
 use App\Rating;
 use Illuminate\Http\Request;
 
