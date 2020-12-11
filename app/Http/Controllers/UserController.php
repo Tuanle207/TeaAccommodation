@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use App\Http\Requests\User\UpdateUserProfileRequest;
-use App\Http\Utils\UserModificationHanlder;
+use App\Http\Utils\UserModificationHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -42,7 +42,7 @@ class UserController extends Controller
         $body = $req->all();
 
         // save user
-        $savedUser = UserModificationHanlder::saveUser($user, $body, $filter);
+        $savedUser = UserModificationHandler::saveUser($user, $body, $filter);
 
         return $this->responseWithUser($savedUser, $savedUser->address);
     }

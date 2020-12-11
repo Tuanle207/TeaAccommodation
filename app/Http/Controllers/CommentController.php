@@ -53,7 +53,7 @@ class CommentController extends Controller
         }
 
         // check if the user is the owner of this comment? 
-        if ($comment->idUser != $req->input('user')->id) {
+        if ($comment->commentedBy != $req->input('user')->id) {
             return response()->json([
                 'status' => 'fail',
                 'message' => 'Chỉ chủ bình luận mới có thể thực hiện thao tác này' 
