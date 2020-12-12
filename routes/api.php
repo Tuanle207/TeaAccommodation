@@ -41,6 +41,9 @@ Route::post('/login', 'AuthController@login'); // done
 // * Logout route
 Route::get('/logout', 'AuthController@logout'); // done
 
+// * Get application's parameters route
+Route::get('/params', 'ParameterController@getParams');
+
 // * Pass requests through authenticate middleware
 Route::middleware([AuthenticationMiddleware::class])->group(function() {
 
