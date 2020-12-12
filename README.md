@@ -23,5 +23,4 @@ TeaAccommodation is written in PHP, Laravel, HTML, CSS, Sass, Javascript...
 - Sass: BEM, 7-1 Pattern for efficiently building CSS style
 
 ## Author
-- 18521597 - Lê Anh Tuấn
-- 18521585 - Nguyễn Thanh Tuấn
+18521597 - Lê Anh Tuấn
