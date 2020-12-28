@@ -4,6 +4,7 @@ namespace App\Http\Utils;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ImageHandler {
 
@@ -25,14 +26,19 @@ class ImageHandler {
         // 3) get photo type
         $folder = null;
         if (in_array($type, ['user', 'apartment', 'comment'])) {
-            $folder = '/photo/' . $type;
+            $folder = public_path() . '/photo/' . $type;
         }
 
-        // 4) actually save photo on Server storage with those filename and extension
-        $path = $originalImage->storeAs($folder, $fileName, ['disk' => 'public']);
-        
+        // 4) minify file size and save photo on Server storage with those filename and extension
+        $img = Image::make($originalImage->getRealPath());
+        // $img->resize(800, 600, function ($constraint) {
+        //     $constraint->aspectRatio();
+        // })->save($folder . '/' . $fileName);
+
+        $img->save($folder . '/' . $fileName);
+
         // 5) return to path image
-        return '/' . $path;
+        return 'photo/' . $type . '/' . $fileName;
     }
 
     public static function deleteImage($path) {

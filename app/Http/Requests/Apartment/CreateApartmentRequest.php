@@ -24,10 +24,10 @@ class CreateApartmentRequest extends ApartmentModificationRequest
             'area' => 'required|numeric|min:0',
             'facilities' => new ValidFacility,
             'phoneContact' => 'required',
-            'photo_1' => 'required | image | max:5242880',
-            'photo_2' => 'required | image | max:5242880',
-            'photo_3' => 'required | image | max:5242880',
-            'photo_4' => 'required | image | max:5242880'
+            'photo_1' => 'required | image | max:10485760',
+            'photo_2' => 'required | image | max:10485760',
+            'photo_3' => 'required | image | max:10485760',
+            'photo_4' => 'required | image | max:10485760'
         ];
     }
 
@@ -52,13 +52,13 @@ class CreateApartmentRequest extends ApartmentModificationRequest
             'photo_3.required' => 'Bạn cần cung cấp đầy đủ hình ảnh phòng trọ',
             'photo_4.required' => 'Bạn cần cung cấp đầy đủ hình ảnh phòng trọ',
             'photo_1.image' => 'Định dạng ảnh không hợp lệ hoặc không được hỗ trợ',
-            'photo_1.max' => 'Kích thước ảnh tối đa là 5MB',
+            'photo_1.max' => 'Kích thước ảnh tối đa là 10MB',
             'photo_2.image' => 'Định dạng ảnh không hợp lệ hoặc không được hỗ trợ',
-            'photo_2.max' => 'Kích thước ảnh tối đa là 5MB',
+            'photo_2.max' => 'Kích thước ảnh tối đa là 10MB',
             'photo_3.image' => 'Định dạng ảnh không hợp lệ hoặc không được hỗ trợ',
-            'photo_3.max' => 'Kích thước ảnh tối đa là 5MB',
+            'photo_3.max' => 'Kích thước ảnh tối đa là 10MB',
             'photo_4.image' => 'Định dạng ảnh không hợp lệ hoặc không được hỗ trợ',
-            'photo_4.max' => 'Kích thước ảnh tối đa là 5MB',
+            'photo_4.max' => 'Kích thước ảnh tối đa là 10MB',
             'facilities' => (new ValidFacility)->message()
         ];
     }

@@ -25,7 +25,7 @@ class SignupRequest extends Request
             'phoneNumber' => 'required',
             'role' => Rule::in(['user', 'landlord']),
             'address' => new ValidAddress,
-            'photo' => 'image | max:5242880'
+            'photo' => 'image | max:20971520'
         ];
     }
     public function messages()
@@ -42,7 +42,7 @@ class SignupRequest extends Request
             'role' => 'Loại người dùng không hợp lệ',
             'address' => (new ValidAddress)->message(),
             'photo.image' => 'Định dạng ảnh không hợp lệ hoặc không được hỗ trợ',
-            'photo.max' => 'Kích thước ảnh tối đa là 5MB'
+            'photo.max' => 'Kích thước ảnh tối đa là 20MB'
         ];
     }
 }

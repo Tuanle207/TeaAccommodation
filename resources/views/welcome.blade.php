@@ -1,23 +1,32 @@
-@extends('base')
-
-@section('page_title', 'Web app tìm phòng trọ tiện lợi, nhanh chóng')
-@section('custom_head')
-<script type='text/javascript' src='http://www.bing.com/api/maps/mapcontrol?setLang=vi&callback=getMap&key=Ap2rAZTQv3mCqJbPxwIbJRhxhLjLWduk9rpCfxp8iO5OGHazrY8vBEewDHWWwwCl' async defer></script>
-@endsection
-
-@section('header')
-    @parent
-@endsection
-
-@section('content')
-    <div class="mapbox">
-        <div class="mapbox__search">
-            <div class="mapbox_search--inputWrapper" id="mapbox__search">
-                <input class="mapbox__search--input" id="search_box" type="text" placeholder="Nhập địa điểm" value="">
-            </div>
-            <p class="mapbox__search--text">Tìm kiếm địa điểm</p>
-        </div>
-        <div class="mapbox__map" id="map"></div>
-    </div>
-    <script src="/js/app.js" type="text/javascript"></script>
-@endsection
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Admin</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <link rel="stylesheet" type="text/css" href="./resources/css/style.css"/>
+        <link rel="stylesheet" type="text/css" href="./resources/css/index_page.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                let list = document.getElementById('listOrder');
+                fetch("http://localhost:8000/api/login", {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({email: 'letgo237@gmail.com', password: 'test1234'}),
+                    credentials: "include",
+                })
+                .then(response => response.json())
+                .then(json => {
+                    alert(json.message);
+                })
+                .catch(error => alert(error.toString()));
+            });
+        </script>
+    </head>
+    <body>
+        
+    </body>
+</html>

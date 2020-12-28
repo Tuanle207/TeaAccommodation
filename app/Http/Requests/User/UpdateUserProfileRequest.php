@@ -20,7 +20,7 @@ class UpdateUserProfileRequest extends Request
             'phoneNumber' => 'required',
             'passwordConfirm' => 'required',
             'address' => ['required', new ValidAddress],
-            'photo' => 'image | max:5242880'
+            'photo' => 'image | max:20971520'
         ];
     }
 
@@ -33,7 +33,7 @@ class UpdateUserProfileRequest extends Request
             'address.required' => 'Bạn cần nhập địa chỉ',
             'address' => (new ValidAddress)->message(),
             'photo.image' => 'Định dang ảnh không hợp lệ hoặc không được hỗ trợ',
-            'photo.max' => 'Kích thước ảnh tối đa là 5MB'
+            'photo.max' => 'Kích thước ảnh tối đa là 20MB'
         ];
     }
 }
