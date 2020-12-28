@@ -5,9 +5,6 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-
-use function GuzzleHttp\json_decode;
-
 class Apartment extends Model
 {
     use Notifiable;

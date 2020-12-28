@@ -5,7 +5,6 @@ namespace App\Http\Utils;
 use App\Address;
 use App\Apartment;
 use App\Http\Utils\ImageHandler;
-use function GuzzleHttp\json_decode;
 
 class ApartmentModificationHandler {
 
