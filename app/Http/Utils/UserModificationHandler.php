@@ -76,7 +76,7 @@ class UserModificationHandler {
         $user->save();
 
         // attach address to user
-        $user->address = $address;
+        //$user->address = $address;
 
         return $user;
     }

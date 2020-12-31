@@ -49,10 +49,10 @@ class UserController extends Controller
 
     private function responseWithUser($user, $address) {
         // format address object -- remove id and and attach address to user
-        if ($address->id != null) {
-            unset($address->id);
-        }
-        $user->address = $address;
+        // if ($address->id != null) {
+        //     unset($address->id);
+        // }
+        // $user->address = $address;
 
         // response json includes user's data
         return response()->json([
