@@ -18,7 +18,6 @@ class UpdateUserProfileRequest extends Request
         return [
             'name' => 'required',
             'phoneNumber' => 'required',
-            'passwordConfirm' => 'required',
             'address' => ['required', new ValidAddress],
             'photo' => 'image | max:20971520'
         ];
@@ -28,7 +27,6 @@ class UpdateUserProfileRequest extends Request
     {
         return [
             'name.required' => 'Bạn cần nhập tên',
-            'passwordConfirm.required' => 'Bạn cần nhập mật khẩu xác nhận',
             'phoneNumber.required' => "Bạn cần nhập số điện thoại",
             'address.required' => 'Bạn cần nhập địa chỉ',
             'address' => (new ValidAddress)->message(),

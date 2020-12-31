@@ -27,15 +27,15 @@ class UserController extends Controller
         $user = $req->user;
 
         // get passwordConfirm from request
-        $passwordConfirm = $req->get('passwordConfirm');
+        //$passwordConfirm = $req->get('passwordConfirm');
 
         // check if password confirm is correct?
-        if (!Hash::check($passwordConfirm, $user->password)) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Mật khẩu không chính xác'
-            ], 401);
-        };
+        // if (!Hash::check($passwordConfirm, $user->password)) {
+        //     return response()->json([
+        //         'status' => 'fail',
+        //         'message' => 'Mật khẩu không chính xác'
+        //     ], 401);
+        // };
 
         // filter for allowed fields (except for photo, address)!
         $filter = ['name', 'phoneNumber'];
