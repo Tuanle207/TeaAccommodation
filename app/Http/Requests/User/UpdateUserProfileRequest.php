@@ -18,7 +18,6 @@ class UpdateUserProfileRequest extends Request
         return [
             'name' => 'required',
             'phoneNumber' => 'required',
-            'address' => ['required', new ValidAddress],
             'photo' => 'image | max:20971520'
         ];
     }
@@ -29,7 +28,6 @@ class UpdateUserProfileRequest extends Request
             'name.required' => 'Bạn cần nhập tên',
             'phoneNumber.required' => "Bạn cần nhập số điện thoại",
             'address.required' => 'Bạn cần nhập địa chỉ',
-            'address' => (new ValidAddress)->message(),
             'photo.image' => 'Định dang ảnh không hợp lệ hoặc không được hỗ trợ',
             'photo.max' => 'Kích thước ảnh tối đa là 20MB'
         ];
