@@ -5,8 +5,6 @@ namespace App\Rules;
 use App\Parameter;
 use Illuminate\Contracts\Validation\Rule;
 
-use function GuzzleHttp\json_decode;
-
 class ValidFacility implements Rule
 {
     /**
