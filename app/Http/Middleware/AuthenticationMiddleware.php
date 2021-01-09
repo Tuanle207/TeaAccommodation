@@ -26,7 +26,7 @@ class AuthenticationMiddleware
             return response()->json([
                 'status' => 'fail',
                 'message' => 'Bạn chưa đăng nhập! Hãy đăng nhập để tiếp tục.'//'You haven\'t logged in yet! Please log in to continue'
-            ]);
+            ], 401);
         }
         // Get token from cookie
         $token = $req->cookie('jwt');
