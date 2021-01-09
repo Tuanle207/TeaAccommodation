@@ -117,9 +117,6 @@ Route::prefix('/apartments') -> group(function() {
             /*
                 * Comment route
             */
-        
-            // * Get list of comments about an apartment route
-            Route::get('/{id}/comments', 'CommentController@getComments'); // done
             
             Route::prefix('/{id}/comments')->group(function() {
                 // * Create a new comment about an apartment route
@@ -150,6 +147,10 @@ Route::prefix('/apartments') -> group(function() {
 
     // Get apartment's detail route
     Route::get('/{id}', 'ApartmentController@getApartment')
+    ->middleware([CheckApartmentExistenceMiddleware::class]); // done
+
+    // Get list of comments about an apartment route
+    Route::get('/{id}/comments', 'CommentController@getComments')
     ->middleware([CheckApartmentExistenceMiddleware::class]); // done
 
 });
