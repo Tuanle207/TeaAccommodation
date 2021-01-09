@@ -64,7 +64,9 @@ class ApartmentModificationHandler {
         }
 
         // Save photos' info
-        $apartment->photos = json_encode($photos, JSON_UNESCAPED_UNICODE);
+        if (count($photos) > 0) {
+            $apartment->photos = json_encode($photos, JSON_UNESCAPED_UNICODE);
+        }
         // Save facilities list
         $apartment->facilities = json_encode($facilities, JSON_UNESCAPED_UNICODE);
 
@@ -73,7 +75,9 @@ class ApartmentModificationHandler {
 
         // attach address, photos, facilities to apartment
         $apartment->address = $address;
-        $apartment->photos = $photos; 
+        if (count($photos) > 0) {
+            $apartment->photos = $photos; 
+        }
         $apartment->facilities = $facilities;
 
         return $apartment;
