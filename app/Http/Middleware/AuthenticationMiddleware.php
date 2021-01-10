@@ -52,6 +52,14 @@ class AuthenticationMiddleware
         $id = $decoded->sub;
         $user = User::fields()->addSelect(['password', 'passwordChangedAt'])->find($id);
 
+        // Check if user still exists
+        if (!$user) {
+            return response()->json([
+                'status' => 'fail',
+                'message' => 'This user is not available'
+            ], 404);
+        }
+
         // Get the time when token got issued (from decoded token) to compare with passwordChangedAt?
         $iat = $decoded->iat;
         if (Carbon::parse($user->passwordChangedAt)->timestamp > $iat) {
@@ -59,15 +67,6 @@ class AuthenticationMiddleware
                 'status' => 'fail',
                 'message' => 'Bạn đã thay đổi mật khẩu gần đây. Vui lòng đăng nhập lại với mật khẩu mới!'
             ], 401);
-        }
-
-
-        // Check if user still exists
-        if (!$user) {
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'This user is not available'
-            ], 404);
         }
 
         // Attach user to req
