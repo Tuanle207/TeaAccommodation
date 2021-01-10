@@ -57,7 +57,7 @@ class UserModificationHandler {
             } // 2. handle image file
             else if ($key === 'photo') {
                 // delete user's old photo
-                if ($user->photo !== null && $user->photo !== '/photo/user/default.png') {
+                if ($user->photo !== null && $user->photo !== 'photo/user/default.png') {
                     ImageHandler::deleteImage($user->photo);
                 }
                 // Store new photo

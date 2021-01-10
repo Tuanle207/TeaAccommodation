@@ -39,6 +39,8 @@ class CreateApartmentsTable extends Migration
             $table->foreign('postedBy')->references('id')->on('users');
             $table->foreign('address')->references('id')->on('addresses');
 
+            $table->softDeletes();
+
         });
         DB::update('alter table apartments AUTO_INCREMENT = 10000');
 

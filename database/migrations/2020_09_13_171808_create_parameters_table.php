@@ -5,8 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-use function GuzzleHttp\json_encode;
-
 class CreateParametersTable extends Migration
 {
     /**
@@ -25,7 +23,7 @@ class CreateParametersTable extends Migration
         DB::update('alter table comments AUTO_INCREMENT = 10000');
 
         DB::insert('insert into parameters (name, value) values (?, ?)', 
-            ['cities', json_encode(['Hồ Chí Minh'], JSON_UNESCAPED_UNICODE)]);
+            ['cities', json_encode(['Thành Phố Hồ Chí Minh'], JSON_UNESCAPED_UNICODE)]);
 
         DB::insert('insert into parameters (name, value) values (?, ?)', 
             ['facilities', json_encode(['wifi', 'tủ lạnh', 'máy giặt'], JSON_UNESCAPED_UNICODE)]);

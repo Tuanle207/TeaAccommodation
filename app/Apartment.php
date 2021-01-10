@@ -4,10 +4,12 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 class Apartment extends Model
 {
     use Notifiable;
+    use SoftDeletes;
     
     protected $fillable = [
         'title', 
@@ -68,6 +70,15 @@ class Apartment extends Model
         self::saving(function($apartment) {
             $apartment->lastUpdatedAt = Carbon::now();
         });
+
+    //     self::deleting(function($apartment) { // before delete() method call this
+            
+    //         // delete all related rating
+    //         Rating::where('idApartment', '=', $apartment->id)->delete();
+            
+    //         // delete all related comment
+    //         Comment::where('idApartment', '=', $apartment->id)->delete();
+    //    });
     }
     
 }
