@@ -214,7 +214,7 @@ class ApiFeaturesHandler {
         //! for apartment
         if ($this->modelType === 'apartment') {
             //* default fields
-            $defaultFields = ['apartments.id', 'title', 'description', 'photos', 'address', 'rent', 'area', 'rating', 'postedAt'];
+            $defaultFields = ['apartments.id', 'title', 'description', 'photos', 'address', 'rent', 'area', 'rating', 'postedAt', 'status'];
 
             /*
             //* allowed fields
