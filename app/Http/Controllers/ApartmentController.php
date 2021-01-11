@@ -11,6 +11,7 @@ use App\Http\Requests\Apartment\UpdateApartmentRequest;
 use App\User;
 use App\Http\Utils\ApartmentModificationHandler;
 use App\Http\Utils\ApiFeaturesHandler;
+use App\Rating;
 
 class ApartmentController extends Controller {
 
@@ -89,6 +90,10 @@ class ApartmentController extends Controller {
         // get user posted the apartment
         $user = User::postedBy()->where('id', $apartment->postedBy)->first();
         $apartment->postedBy = $user;
+
+        // get number of ratings
+        $ratingCount = Rating::where('idApartment', $apartment->id)->count();
+        $apartment->rating = (object)["rating" => $apartment->rating, "ratingCount" => $ratingCount];
 
         return response()->json([
             'status' => 'success',
