@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -20,16 +21,23 @@ class AuthenticationMiddleware
      */
     public function handle($req, Closure $next)
     {
-        // There existing a cookie ?
-        if (!$req->cookie('jwt')) {
-            // User have not logged in yet
-            return response()->json([
-                'status' => 'fail',
-                'message' => 'Bạn chưa đăng nhập! Hãy đăng nhập để tiếp tục.'//'You haven\'t logged in yet! Please log in to continue'
-            ], 401);
+        
+        $token = null;
+        // Get token from cookie or authorization token
+        if ($req->header('Authorization') && Str::startsWith($req->header('Authorization'), 'Bearer')) {
+            $analyzingToken = explode(' ', $req->header('Authorization'));
+            if (count($analyzingToken) === 2) $token = $analyzingToken[1];
+        } else if ($req->cookie('jwt')) {
+            $token = $req->cookie('jwt');
         }
-        // Get token from cookie
-        $token = $req->cookie('jwt');
+
+        if ($token === null) {
+          // User have not logged in yet
+          return response()->json([
+            'status' => 'fail',
+            'message' => 'Bạn chưa đăng nhập! Hãy đăng nhập để tiếp tục.'//'You haven\'t logged in yet! Please log in to continue'
+          ], 401);
+        }
             
         // Decode token
         try {
